@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <style>
+    :root{
+      --ink:oklch(15% 0.012 260);
+      --paper:oklch(96% 0.018 95);
+      --paper-alt:oklch(91% 0.03 92);
+      --surface:oklch(99% 0.006 95);
+      --border:var(--ink);
+      --text-muted:oklch(34% 0.015 260);
+      --text-faint:oklch(46% 0.015 260);
+      --blue:oklch(54% 0.19 265);
+      --blue-ink:oklch(99% 0 0);
+      --yellow:oklch(87% 0.16 98);
+      --yellow-ink:var(--ink);
+      --pink:oklch(72% 0.19 18);
+      --pink-ink:oklch(99% 0 0);
+      --shadow-off:6px;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;}
+    h1,h2,h3,.display{font-family:"Space Grotesk",system-ui,sans-serif;letter-spacing:-0.015em;}
+    .mono{font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:0.04em;}
+    a{color:var(--blue);text-decoration:underline;text-underline-offset:3px;}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 18px;font-weight:700;font-size:13.5px;cursor:pointer;border:2.5px solid var(--border);box-shadow:3px 3px 0 0 var(--border);background:var(--surface);color:var(--ink);white-space:nowrap;font-family:"Space Grotesk",sans-serif;text-decoration:none;}
+    .btn-blue{background:var(--blue);color:var(--blue-ink);}
+    .icon{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.25;stroke-linecap:round;stroke-linejoin:round;}
+    .hard-sm{border:2px solid var(--border);box-shadow:4px 4px 0 0 var(--border);}
+    .card{background:var(--surface);border:2.5px solid var(--border);}
+    .navitem{display:flex;align-items:center;gap:12px;padding:11px 14px;font-size:14px;font-weight:600;text-decoration:none;}
+    .navitem-off{color:var(--paper);opacity:0.6;}
+    .navitem-on{background:var(--blue);color:var(--blue-ink);}
+  </style>
+</helmet>
+
+<div style="width:100%;overflow:hidden;min-height:100vh;background:var(--paper);">
+<div style="display:flex;min-height:100vh;">
+
+  <!-- SIDEBAR -->
+  <div style="width:236px;flex-shrink:0;background:var(--ink);display:flex;flex-direction:column;">
+    <div style="padding:22px 20px 18px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="hard-sm" style="width:30px;height:30px;background:var(--blue);display:flex;align-items:center;justify-content:center;">
+          <svg class="icon" style="width:16px;height:16px;stroke:var(--blue-ink);" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 6h6v6"/></svg>
+        </div>
+        <span class="display" style="font-weight:700;font-size:17px;color:var(--paper);">SubFlow</span>
+      </div>
+    </div>
+    <div style="flex:1;padding:8px 12px;display:flex;flex-direction:column;gap:3px;">
+      <a href="#" class="navitem navitem-on"><svg class="icon" style="width:18px;height:18px;" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg>Tableau de bord</a>
+      <a href="#" class="navitem navitem-off"><svg class="icon" style="width:18px;height:18px;" viewBox="0 0 24 24"><path d="M20 12l-8 8-9-9V4h7l10 10z"/><circle cx="8" cy="8" r="1.3"/></svg>Abonnements</a>
+      <a href="#" class="navitem navitem-off"><svg class="icon" style="width:18px;height:18px;" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Calendrier</a>
+      <a href="#" class="navitem navitem-off"><svg class="icon" style="width:18px;height:18px;" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Alertes</a>
+      <a href="#" class="navitem navitem-off"><svg class="icon" style="width:18px;height:18px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.2M12 18.8V21M4.2 12H2M22 12h-2.2M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M5.6 18.4l1.6-1.6M16.8 7.2l1.6-1.6"/></svg>Paramètres</a>
+    </div>
+    <div style="padding:16px;">
+      <div class="hard-sm" style="background:var(--surface);padding:14px;">
+        <div class="mono" style="font-size:10px;font-weight:700;color:var(--text-faint);">ESSAI GRATUIT</div>
+        <div style="font-size:12.5px;font-weight:600;margin-top:4px;">Jour 12 sur 90</div>
+        <div style="height:6px;background:var(--paper-alt);border:1.5px solid var(--border);margin-top:8px;">
+          <div style="height:100%;width:13%;background:var(--blue);"></div>
+        </div>
+        <a href="#" style="display:block;font-size:12px;font-weight:700;color:var(--blue);margin-top:10px;">Passer en Pro →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div style="flex:1;min-width:0;">
+    <div style="height:72px;border-bottom:2.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;background:var(--paper);z-index:10;">
+      <h1 style="font-size:20px;font-weight:700;margin:0;">Tableau de bord</h1>
+      <div style="display:flex;align-items:center;gap:18px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-muted);font-weight:500;">
+          <svg class="icon" style="width:15px;height:15px;stroke:var(--text-faint);" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+          Dernière synchro : il y a 2 heures
+        </div>
+        <div class="hard-sm" style="width:38px;height:38px;border-radius:999px;background:var(--paper-alt);display:flex;align-items:center;justify-content:center;">
+          <svg class="icon" style="width:17px;height:17px;stroke:var(--ink);" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:28px 32px 48px;">
+
+      <!-- KPI row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+        <div class="card" style="padding:20px;">
+          <div class="mono" style="font-size:10.5px;font-weight:700;color:var(--text-faint);">TOTAL MENSUEL</div>
+          <div style="font-size:26px;font-weight:700;margin-top:8px;">44,29&nbsp;€</div>
+        </div>
+        <div class="card" style="padding:20px;">
+          <div class="mono" style="font-size:10.5px;font-weight:700;color:var(--text-faint);">TOTAL ANNUEL EST.</div>
+          <div style="font-size:26px;font-weight:700;margin-top:8px;">531,48&nbsp;€</div>
+        </div>
+        <div class="card" style="padding:20px;">
+          <div class="mono" style="font-size:10.5px;font-weight:700;color:var(--text-faint);">ABONNEMENTS ACTIFS</div>
+          <div style="font-size:26px;font-weight:700;margin-top:8px;">8</div>
+        </div>
+        <div class="card" style="padding:20px;background:var(--yellow);">
+          <div class="mono" style="font-size:10.5px;font-weight:700;color:var(--yellow-ink);opacity:0.75;">À VÉRIFIER</div>
+          <div style="font-size:26px;font-weight:700;margin-top:8px;color:var(--yellow-ink);">2</div>
+        </div>
+      </div>
+
+      <!-- two columns -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-top:24px;align-items:start;">
+
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div class="card" style="padding:24px;">
+            <h3 style="font-size:15px;font-weight:700;margin:0 0 16px;">Répartition par catégorie</h3>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:5px;"><span>Productivité &amp; Cloud</span><span>22,98&nbsp;€</span></div>
+                <div style="height:14px;background:var(--paper-alt);border:1.5px solid var(--border);"><div style="height:100%;width:100%;background:var(--blue);"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:5px;"><span>Streaming</span><span>13,41&nbsp;€</span></div>
+                <div style="height:14px;background:var(--paper-alt);border:1.5px solid var(--border);"><div style="height:100%;width:58%;background:var(--blue);"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:5px;"><span>Presse &amp; Autres</span><span>7,90&nbsp;€</span></div>
+                <div style="height:14px;background:var(--paper-alt);border:1.5px solid var(--border);"><div style="height:100%;width:34%;background:var(--text-faint);"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding:24px;">
+            <h3 style="font-size:15px;font-weight:700;margin:0 0 16px;">Abonnements les plus coûteux</h3>
+            <div style="display:flex;flex-direction:column;">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1.5px solid var(--paper-alt);">
+                <span style="font-size:14px;font-weight:600;">StreamPlus</span>
+                <span style="font-size:14px;font-weight:700;">89,00&nbsp;€ / an</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1.5px solid var(--paper-alt);">
+                <span style="font-size:14px;font-weight:600;">DesignSuite</span>
+                <span style="font-size:14px;font-weight:700;">12,99&nbsp;€ / mois</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;">
+                <span style="font-size:14px;font-weight:600;">CloudDrive Pro</span>
+                <span style="font-size:14px;font-weight:700;">9,99&nbsp;€ / mois</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div class="card" style="padding:22px;">
+            <h3 style="font-size:15px;font-weight:700;margin:0 0 14px;">Prochains prélèvements</h3>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--paper-alt);">
+                <div class="hard-sm" style="width:34px;height:34px;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:9px;font-weight:700;line-height:1;">SEP</span><span style="font-size:12px;font-weight:700;line-height:1.2;">14</span></div>
+                <div style="flex-grow:1;min-width:0;"><div style="font-size:13px;font-weight:600;">CloudDrive Pro</div></div>
+                <span style="font-size:13px;font-weight:700;">9,99&nbsp;€</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--paper-alt);">
+                <div class="hard-sm" style="width:34px;height:34px;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:9px;font-weight:700;line-height:1;">SEP</span><span style="font-size:12px;font-weight:700;line-height:1.2;">18</span></div>
+                <div style="flex-grow:1;min-width:0;"><div style="font-size:13px;font-weight:600;">MusicWave</div></div>
+                <span style="font-size:13px;font-weight:700;">5,99&nbsp;€</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--yellow);">
+                <div class="hard-sm" style="width:34px;height:34px;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:9px;font-weight:700;line-height:1;">SEP</span><span style="font-size:12px;font-weight:700;line-height:1.2;">21</span></div>
+                <div style="flex-grow:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--yellow-ink);">DesignSuite ↑</div></div>
+                <span style="font-size:13px;font-weight:700;color:var(--yellow-ink);">12,99&nbsp;€</span>
+              </div>
+            </div>
+            <a href="#" style="display:block;text-align:center;font-size:12.5px;font-weight:700;margin-top:14px;">Voir le calendrier complet →</a>
+          </div>
+
+          <div class="hard-sm" style="background:var(--ink);padding:20px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <svg class="icon" style="width:18px;height:18px;stroke:var(--paper);" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+              <span class="mono" style="font-size:11px;font-weight:700;color:var(--paper);">SYNCHRONISATION</span>
+            </div>
+            <p style="font-size:13px;color:var(--paper);opacity:0.8;margin:10px 0 14px;line-height:1.5;">Dernière synchro il y a 2 heures. Tout est à jour.</p>
+            <a href="#" class="btn btn-blue" style="width:100%;">Resynchroniser</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</x-dc>
+</body>
+</html>

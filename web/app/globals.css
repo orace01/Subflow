@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+:root {
+  --ink: oklch(15% 0.012 260);
+  --paper: oklch(96% 0.018 95);
+  --paper-alt: oklch(91% 0.03 92);
+  --surface: oklch(99% 0.006 95);
+  --text-muted: oklch(34% 0.015 260);
+  --text-faint: oklch(46% 0.015 260);
+  --blue: oklch(54% 0.19 265);
+  --blue-ink: oklch(99% 0 0);
+  --yellow: oklch(87% 0.16 98);
+  --yellow-ink: oklch(15% 0.012 260);
+  --pink: oklch(72% 0.19 18);
+  --pink-ink: oklch(99% 0 0);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper-alt: var(--paper-alt);
+  --color-surface: var(--surface);
+  --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
+  --color-blue: var(--blue);
+  --color-blue-ink: var(--blue-ink);
+  --color-yellow: var(--yellow);
+  --color-yellow-ink: var(--yellow-ink);
+  --color-pink: var(--pink);
+  --color-pink-ink: var(--pink-ink);
+
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), monospace;
+  --font-sans: var(--font-ibm-plex-sans), system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+
+  a {
+    color: var(--blue);
+  }
+}
+
+/* Neo-brutalist hard border / offset shadow system, reused everywhere.
+   Layered as utilities so Tailwind color/utility classes on the same
+   element can still win via normal cascade order. */
+@layer utilities {
+  .hard {
+    border: 2.5px solid var(--ink);
+    box-shadow: 6px 6px 0 0 var(--ink);
+  }
+
+  .hard-sm {
+    border: 2px solid var(--ink);
+    box-shadow: 4px 4px 0 0 var(--ink);
+  }
+
+  .hard-xs {
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0 0 var(--ink);
+  }
+
+  .hard-flat {
+    border: 2.5px solid var(--ink);
+  }
+}

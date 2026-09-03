@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <style>
+    :root{
+      --ink:oklch(15% 0.012 260);
+      --paper:oklch(96% 0.018 95);
+      --paper-alt:oklch(91% 0.03 92);
+      --surface:oklch(99% 0.006 95);
+      --border:var(--ink);
+      --text-muted:oklch(34% 0.015 260);
+      --text-faint:oklch(46% 0.015 260);
+      --blue:oklch(54% 0.19 265);
+      --blue-ink:oklch(99% 0 0);
+      --yellow:oklch(87% 0.16 98);
+      --yellow-ink:var(--ink);
+      --pink:oklch(72% 0.19 18);
+      --pink-ink:oklch(99% 0 0);
+      --shadow-off:6px;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;}
+    h1,h2,h3,.display{font-family:"Space Grotesk",system-ui,sans-serif;letter-spacing:-0.015em;}
+    .mono{font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:0.04em;}
+    a{color:var(--blue);text-decoration:underline;text-underline-offset:3px;}
+    a:hover{color:var(--pink);}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 26px;font-weight:700;font-size:15px;cursor:pointer;border:2.5px solid var(--border);box-shadow:5px 5px 0 0 var(--border);background:var(--surface);color:var(--ink);white-space:nowrap;transition:transform .1s, box-shadow .1s;font-family:"Space Grotesk",sans-serif;text-decoration:none;}
+    .btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 0 var(--border);}
+    .btn-blue{background:var(--blue);color:var(--blue-ink);}
+    .icon{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.25;stroke-linecap:round;stroke-linejoin:round;}
+    .hard{border:2.5px solid var(--border);box-shadow:var(--shadow-off) var(--shadow-off) 0 0 var(--border);}
+    .hard-sm{border:2px solid var(--border);box-shadow:4px 4px 0 0 var(--border);}
+    .card{background:var(--surface);border:2.5px solid var(--border);}
+  </style>
+</helmet>
+
+<div style="width:100%;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;">
+
+  <!-- top bar with logo + stepper -->
+  <div style="border-bottom:2.5px solid var(--border);padding:20px 32px;">
+    <div style="max-width:640px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="hard-sm" style="width:30px;height:30px;background:var(--blue);display:flex;align-items:center;justify-content:center;">
+          <svg class="icon" style="width:16px;height:16px;stroke:var(--blue-ink);" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 6h6v6"/></svg>
+        </div>
+        <span class="display" style="font-weight:700;font-size:17px;">SubFlow</span>
+      </div>
+      <div class="mono" style="font-size:11px;font-weight:700;color:var(--text-faint);">ÉTAPE 1 SUR 4</div>
+    </div>
+  </div>
+
+  <!-- stepper -->
+  <div style="padding:24px 32px 0;">
+    <div style="max-width:640px;margin:0 auto;display:flex;align-items:center;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="hard-sm" style="width:26px;height:26px;background:var(--blue);color:var(--blue-ink);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">1</div>
+        <span style="font-size:12.5px;font-weight:700;">Connexion</span>
+      </div>
+      <div style="flex:1;height:2px;background:var(--border);margin:0 10px;"></div>
+      <div style="display:flex;align-items:center;gap:8px;opacity:0.4;">
+        <div class="hard-sm" style="width:26px;height:26px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">2</div>
+        <span style="font-size:12.5px;font-weight:700;">Détection</span>
+      </div>
+      <div style="flex:1;height:2px;background:var(--border);margin:0 10px;opacity:0.4;"></div>
+      <div style="display:flex;align-items:center;gap:8px;opacity:0.4;">
+        <div class="hard-sm" style="width:26px;height:26px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">3</div>
+        <span style="font-size:12.5px;font-weight:700;">Confirmation</span>
+      </div>
+      <div style="flex:1;height:2px;background:var(--border);margin:0 10px;opacity:0.4;"></div>
+      <div style="display:flex;align-items:center;gap:8px;opacity:0.4;">
+        <div class="hard-sm" style="width:26px;height:26px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">4</div>
+        <span style="font-size:12.5px;font-weight:700;">Terminé</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- content -->
+  <div style="flex:1;display:flex;align-items:flex-start;justify-content:center;padding:48px 32px 64px;">
+    <div style="max-width:640px;width:100%;">
+      <h1 style="font-size:30px;font-weight:700;margin:0;text-align:center;">Connectez votre compte bancaire</h1>
+      <p style="font-size:15px;color:var(--text-muted);margin:12px 0 0;text-align:center;line-height:1.6;">SubFlow analyse vos transactions via un fournisseur Open Banking agréé pour détecter vos abonnements. Vos identifiants bancaires ne sont jamais stockés par SubFlow.</p>
+
+      <div style="margin-top:32px;position:relative;">
+        <svg class="icon" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--text-faint);" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" placeholder="Rechercher votre banque" style="width:100%;height:52px;padding:0 16px 0 46px;border:2.5px solid var(--border);background:var(--surface);font-size:14.5px;font-family:'IBM Plex Sans',sans-serif;color:var(--ink);" />
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:20px;">
+        <div class="hard-sm" style="background:var(--surface);padding:16px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;">
+          <div style="width:40px;height:40px;border-radius:9px;background:var(--paper-alt);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:13px;">BN</div>
+          <span style="font-size:14.5px;font-weight:600;flex-grow:1;">Banque Nationale</span>
+          <svg class="icon" style="width:18px;height:18px;stroke:var(--text-faint);" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+        <div class="hard-sm" style="background:var(--surface);padding:16px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;">
+          <div style="width:40px;height:40px;border-radius:9px;background:var(--paper-alt);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:13px;">CR</div>
+          <span style="font-size:14.5px;font-weight:600;flex-grow:1;">Crédit Régional</span>
+          <svg class="icon" style="width:18px;height:18px;stroke:var(--text-faint);" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+        <div class="hard-sm" style="background:var(--blue);padding:16px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;">
+          <div style="width:40px;height:40px;border-radius:9px;background:var(--surface);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:13px;color:var(--ink);">NB</div>
+          <span style="font-size:14.5px;font-weight:600;flex-grow:1;color:var(--blue-ink);">NéoBanque+</span>
+          <svg class="icon" style="width:18px;height:18px;stroke:var(--blue-ink);" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div class="hard-sm" style="background:var(--surface);padding:16px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;">
+          <div style="width:40px;height:40px;border-radius:9px;background:var(--paper-alt);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;font-size:13px;">EP</div>
+          <span style="font-size:14.5px;font-weight:600;flex-grow:1;">Épargne &amp; Associés</span>
+          <svg class="icon" style="width:18px;height:18px;stroke:var(--text-faint);" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+        <a href="#" style="text-align:center;font-size:13.5px;font-weight:600;margin-top:4px;">Voir toutes les banques (120+)</a>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:32px;padding-top:24px;border-top:2px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-muted);font-weight:500;">
+          <svg class="icon" style="width:15px;height:15px;" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          Tokenisation &amp; chiffrement
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-muted);font-weight:500;">
+          <svg class="icon" style="width:15px;height:15px;" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6"/><path d="M15 14l2 2 4-4"/></svg>
+          Consentement explicite
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-muted);font-weight:500;">
+          <svg class="icon" style="width:15px;height:15px;" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/></svg>
+          Suppression à tout moment
+        </div>
+      </div>
+
+      <a href="#" class="btn btn-blue" style="width:100%;margin-top:24px;">Continuer en toute sécurité</a>
+      <p class="mono" style="font-size:10.5px;color:var(--text-faint);text-align:center;margin-top:14px;font-weight:600;">PROPULSÉ PAR BRIDGE / POWENS — CONFORME OPEN BANKING</p>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <style>
+    :root{
+      --ink:oklch(15% 0.012 260);
+      --paper:oklch(96% 0.018 95);
+      --paper-alt:oklch(91% 0.03 92);
+      --surface:oklch(99% 0.006 95);
+      --border:var(--ink);
+      --text-muted:oklch(34% 0.015 260);
+      --text-faint:oklch(46% 0.015 260);
+      --blue:oklch(54% 0.19 265);
+      --blue-ink:oklch(99% 0 0);
+      --yellow:oklch(87% 0.16 98);
+      --yellow-ink:var(--ink);
+      --pink:oklch(72% 0.19 18);
+      --pink-ink:oklch(99% 0 0);
+      --shadow-off:6px;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;}
+    h1,h2,h3,.display{font-family:"Space Grotesk",system-ui,sans-serif;letter-spacing:-0.015em;}
+    .mono{font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:0.04em;}
+    a{color:var(--blue);text-decoration:underline;text-underline-offset:3px;}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;font-weight:700;font-size:14.5px;cursor:pointer;border:2.5px solid var(--border);box-shadow:4px 4px 0 0 var(--border);background:var(--surface);color:var(--ink);white-space:nowrap;transition:transform .1s, box-shadow .1s;font-family:"Space Grotesk",sans-serif;text-decoration:none;}
+    .btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 var(--border);}
+    .btn-blue{background:var(--blue);color:var(--blue-ink);}
+    .btn-sm{height:36px;padding:0 14px;font-size:12.5px;box-shadow:2.5px 2.5px 0 0 var(--border);}
+    .btn-sm:hover{box-shadow:4px 4px 0 0 var(--border);}
+    .icon{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.25;stroke-linecap:round;stroke-linejoin:round;}
+    .hard-sm{border:2px solid var(--border);box-shadow:4px 4px 0 0 var(--border);}
+    .card{background:var(--surface);border:2.5px solid var(--border);}
+  </style>
+</helmet>
+
+<div style="width:100%;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;">
+
+  <div style="border-bottom:2.5px solid var(--border);padding:20px 32px;">
+    <div style="max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="hard-sm" style="width:30px;height:30px;background:var(--blue);display:flex;align-items:center;justify-content:center;">
+          <svg class="icon" style="width:16px;height:16px;stroke:var(--blue-ink);" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 6h6v6"/></svg>
+        </div>
+        <span class="display" style="font-weight:700;font-size:17px;">SubFlow</span>
+      </div>
+      <div class="mono" style="font-size:11px;font-weight:700;color:var(--text-faint);">ÉTAPE 3 SUR 4</div>
+    </div>
+  </div>
+
+  <div style="padding:24px 32px 0;">
+    <div style="max-width:760px;margin:0 auto;display:flex;align-items:center;">
+      <div style="display:flex;align-items:center;gap:8px;opacity:0.4;">
+        <div class="hard-sm" style="width:26px;height:26px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;"><svg class="icon" style="width:14px;height:14px;stroke:var(--ink);" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <span style="font-size:12.5px;font-weight:700;">Connexion</span>
+      </div>
+      <div style="flex:1;height:2px;background:var(--border);margin:0 10px;opacity:0.4;"></div>
+      <div style="display:flex;align-items:center;gap:8px;opacity:0.4;">
+        <div class="hard-sm" style="width:26px;height:26px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;"><svg class="icon" style="width:14px;height:14px;stroke:var(--ink);" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <span style="font-size:12.5px;font-weight:700;">Détection</span>
+      </div>
+      <div style="flex:1;height:2px;background:var(--border);margin:0 10px;"></div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="hard-sm" style="width:26px;height:26px;background:var(--blue);color:var(--blue-ink);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">3</div>
+        <span style="font-size:12.5px;font-weight:700;">Confirmation</span>
+      </div>
+      <div style="flex:1;height:2px;background:var(--border);margin:0 10px;opacity:0.4;"></div>
+      <div style="display:flex;align-items:center;gap:8px;opacity:0.4;">
+        <div class="hard-sm" style="width:26px;height:26px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">4</div>
+        <span style="font-size:12.5px;font-weight:700;">Terminé</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="flex:1;padding:40px 32px 120px;">
+    <div style="max-width:760px;margin:0 auto;">
+      <h1 style="font-size:28px;font-weight:700;margin:0;">Confirmez vos abonnements détectés</h1>
+      <p style="font-size:14.5px;color:var(--text-muted);margin:10px 0 0;line-height:1.6;">Nous avons trouvé 9 paiements récurrents dans vos 90 derniers jours de transactions. Vérifiez chacun avant de continuer — vous pourrez toujours les modifier plus tard.</p>
+
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:28px;">
+
+        <div class="hard-sm" style="background:var(--surface);padding:16px 18px;display:flex;align-items:center;gap:14px;">
+          <div style="width:40px;height:40px;border-radius:9px;background:var(--yellow);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg class="icon" style="width:19px;height:19px;stroke:var(--yellow-ink);" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg>
+          </div>
+          <div style="flex-grow:1;min-width:0;">
+            <div style="font-size:14.5px;font-weight:700;">CloudDrive Pro</div>
+            <div style="font-size:12.5px;color:var(--text-faint);">9,99&nbsp;€ · mensuel · détecté 3 fois</div>
+          </div>
+          <span class="mono hard-sm" style="background:var(--blue);color:var(--blue-ink);font-size:10px;font-weight:700;padding:5px 10px;">CONFIANCE ÉLEVÉE</span>
+          <a href="#" class="btn btn-sm">Modifier</a>
+          <a href="#" class="btn btn-sm btn-blue">Confirmer</a>
+        </div>
+
+        <div class="hard-sm" style="background:var(--surface);padding:16px 18px;display:flex;align-items:center;gap:14px;">
+          <div style="width:40px;height:40px;border-radius:9px;background:var(--yellow);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg class="icon" style="width:19px;height:19px;stroke:var(--yellow-ink);" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg>
+          </div>
+          <div style="flex-grow:1;min-width:0;">
+            <div style="font-size:14.5px;font-weight:700;">StreamPlus</div>
+            <div style="font-size:12.5px;color:var(--text-faint);">89,00&nbsp;€ · annuel · détecté 1 fois</div>
+          </div>
+          <span class="mono hard-sm" style="background:var(--surface);color:var(--ink);font-size:10px;font-weight:700;padding:5px 10px;">CONFIANCE MOYENNE</span>
+          <a href="#" class="btn btn-sm">Modifier</a>
+          <a href="#" class="btn btn-sm btn-blue">Confirmer</a>
+        </div>
+
+        <div class="hard-sm" style="background:var(--surface);padding:16px 18px;display:flex;align-items:center;gap:14px;">
+          <div style="width:40px;height:40px;border-radius:9px;background:var(--yellow);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg class="icon" style="width:19px;height:19px;stroke:var(--yellow-ink);" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg>
+          </div>
+          <div style="flex-grow:1;min-width:0;">
+            <div style="font-size:14.5px;font-weight:700;">FitTrack</div>
+            <div style="font-size:12.5px;color:var(--text-faint);">24,90&nbsp;€ · irrégulier · détecté 2 fois</div>
+          </div>
+          <span class="mono hard-sm" style="background:var(--pink);color:var(--pink-ink);font-size:10px;font-weight:700;padding:5px 10px;">À VÉRIFIER</span>
+          <a href="#" class="btn btn-sm">Modifier</a>
+          <a href="#" class="btn btn-sm btn-blue">Confirmer</a>
+        </div>
+
+        <div class="hard-sm" style="background:var(--surface);padding:16px 18px;display:flex;align-items:center;gap:14px;opacity:0.55;">
+          <div style="width:40px;height:40px;border-radius:9px;background:var(--paper-alt);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg class="icon" style="width:19px;height:19px;stroke:var(--ink);" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg>
+          </div>
+          <div style="flex-grow:1;min-width:0;">
+            <div style="font-size:14.5px;font-weight:700;text-decoration:line-through;">DesignSuite</div>
+            <div style="font-size:12.5px;color:var(--text-faint);">12,99&nbsp;€ · mensuel — ignoré</div>
+          </div>
+          <a href="#" class="btn btn-sm">Annuler</a>
+        </div>
+
+        <div style="text-align:center;padding:12px;">
+          <span class="mono" style="font-size:11.5px;font-weight:700;color:var(--text-faint);">+ 5 AUTRES ABONNEMENTS À VÉRIFIER PLUS BAS</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- sticky footer bar -->
+  <div class="hard-sm" style="position:sticky;bottom:16px;margin:0 auto;max-width:760px;width:calc(100% - 64px);background:var(--surface);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
+    <span style="font-size:13.5px;font-weight:600;color:var(--text-muted);">3 sur 9 confirmés</span>
+    <a href="#" class="btn btn-blue">Continuer</a>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

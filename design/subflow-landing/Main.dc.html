@@ -1,0 +1,419 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <style>
+    :root{
+      --ink:oklch(15% 0.012 260);
+      --paper:oklch(96% 0.018 95);
+      --paper-alt:oklch(91% 0.03 92);
+      --surface:oklch(99% 0.006 95);
+      --border:var(--ink);
+      --text-muted:oklch(34% 0.015 260);
+      --text-faint:oklch(46% 0.015 260);
+      --blue:oklch(54% 0.19 265);
+      --blue-ink:oklch(99% 0 0);
+      --yellow:oklch(87% 0.16 98);
+      --yellow-ink:var(--ink);
+      --pink:oklch(72% 0.19 18);
+      --pink-ink:oklch(99% 0 0);
+      --shadow-off:6px;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --ink:oklch(95% 0.012 90);
+        --paper:oklch(15% 0.014 260);
+        --paper-alt:oklch(20% 0.016 260);
+        --surface:oklch(19% 0.014 260);
+        --text-muted:oklch(78% 0.012 260);
+        --text-faint:oklch(64% 0.012 260);
+        --blue:oklch(70% 0.15 265);
+        --blue-ink:oklch(10% 0 0);
+        --yellow:oklch(80% 0.14 98);
+        --yellow-ink:oklch(10% 0 0);
+        --pink:oklch(75% 0.16 18);
+        --pink-ink:oklch(10% 0 0);
+      }
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;}
+    h1,h2,h3,.display{font-family:"Space Grotesk",system-ui,sans-serif;letter-spacing:-0.015em;}
+    .mono{font-family:"IBM Plex Mono",monospace;text-transform:uppercase;letter-spacing:0.04em;}
+    a{color:var(--blue);text-decoration:underline;text-underline-offset:3px;}
+    a:hover{color:var(--pink);}
+    .container{width:100%;max-width:1400px;margin:0 auto;padding:0 32px;}
+    .hard{border:2.5px solid var(--border);box-shadow:var(--shadow-off) var(--shadow-off) 0 0 var(--border);}
+    .hard-sm{border:2px solid var(--border);box-shadow:4px 4px 0 0 var(--border);}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 26px;font-weight:700;font-size:15px;cursor:pointer;border:2.5px solid var(--border);box-shadow:5px 5px 0 0 var(--border);background:var(--surface);color:var(--ink);white-space:nowrap;transition:transform .1s, box-shadow .1s;font-family:"Space Grotesk",sans-serif;text-decoration:none;}
+    .btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 0 var(--border);}
+    .btn:active{transform:translate(1px,1px);box-shadow:2px 2px 0 0 var(--border);}
+    .btn-blue{background:var(--blue);color:var(--blue-ink);}
+    .btn-yellow{background:var(--yellow);color:var(--yellow-ink);}
+    .icon{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.25;stroke-linecap:round;stroke-linejoin:round;}
+    .tag{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;padding:7px 14px;border:2px solid var(--border);background:var(--surface);}
+    .card{background:var(--surface);border:2.5px solid var(--border);}
+    .mark{background:var(--yellow);color:var(--yellow-ink);padding:0 8px;display:inline-block;transform:rotate(-1deg);}
+    @media (max-width:860px){
+      .grid-3, .grid-4{grid-template-columns:1fr !important;}
+      .hero-grid{grid-template-columns:1fr !important;}
+      .steps-row{flex-direction:column !important;}
+      .nav-links{display:none !important;}
+    }
+  </style>
+</helmet>
+
+<div style="width:100%;overflow:hidden;">
+
+  <!-- NAV -->
+  <div style="position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:2.5px solid var(--border);">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;height:76px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="hard-sm" style="width:34px;height:34px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg class="icon" style="width:18px;height:18px;stroke:var(--blue-ink);" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 6h6v6"/></svg>
+        </div>
+        <span class="display" style="font-weight:700;font-size:21px;">SubFlow</span>
+      </div>
+      <div class="nav-links" style="display:flex;align-items:center;gap:30px;">
+        <a href="#fonctionnalites" style="color:var(--ink);font-size:14.5px;font-weight:600;text-decoration:none;">Fonctionnalités</a>
+        <a href="#comment-ca-marche" style="color:var(--ink);font-size:14.5px;font-weight:600;text-decoration:none;">Comment ça marche</a>
+        <a href="#tarifs" style="color:var(--ink);font-size:14.5px;font-weight:600;text-decoration:none;">Tarifs</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <a href="#" style="color:var(--ink);font-size:14.5px;font-weight:600;text-decoration:none;">Connexion</a>
+        <a href="#tarifs" class="btn btn-blue" style="height:42px;padding:0 18px;font-size:13.5px;box-shadow:3px 3px 0 0 var(--border);">Essai gratuit</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="container" style="padding-top:80px;padding-bottom:56px;">
+    <div class="hero-grid" style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:64px;align-items:center;">
+      <div>
+        <div class="tag mono" style="background:var(--yellow);color:var(--yellow-ink);transform:rotate(-1.5deg);">
+          <svg class="icon" style="width:14px;height:14px;" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          Connexion bancaire sécurisée
+        </div>
+        <h1 style="font-size:36px;line-height:1.2;font-weight:700;margin:24px 0 0;">
+          <span style="font-size:52px;font-weight:800;background:linear-gradient(100deg, var(--blue), var(--yellow));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">SubFlow</span> détecte vos abonnements, <span class="mark">anticipe vos prélèvements</span> et vous aide à éviter les dépenses oubliées.
+        </h1>
+        <p style="font-size:15.5px;line-height:1.6;color:var(--text-muted);margin:20px 0 32px;max-width:560px;font-weight:500;">Connectez votre compte, laissez SubFlow repérer vos paiements récurrents, et gardez le contrôle sur ce que vous payez vraiment, mois après mois.</p>
+        <div style="display:flex;gap:16px;margin-top:0;flex-wrap:wrap;">
+          <a href="#tarifs" class="btn btn-blue">Démarrer l'essai gratuit de 3 mois</a>
+          <a href="#comment-ca-marche" class="btn">Comment ça marche</a>
+        </div>
+        <p class="mono" style="font-size:12px;color:var(--text-faint);margin-top:18px;font-weight:600;">Sans carte bancaire · résiliable à tout moment</p>
+      </div>
+
+      <!-- Hero mockup card -->
+      <div class="hard" style="background:var(--surface);">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--ink);border-bottom:2.5px solid var(--border);">
+          <span class="mono" style="font-size:12px;font-weight:700;color:var(--paper);">Abonnements détectés</span>
+          <span class="mono" style="font-size:11px;color:var(--paper);opacity:0.7;">Sync à l'instant</span>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:2px solid var(--border);">
+            <div class="hard-sm" style="width:38px;height:38px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:2px 2px 0 0 var(--border);">
+              <svg class="icon" style="width:18px;height:18px;stroke:var(--blue-ink);" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg>
+            </div>
+            <div style="flex-grow:1;min-width:0;">
+              <div style="font-size:14.5px;font-weight:700;">CloudDrive Pro</div>
+              <div style="font-size:12.5px;color:var(--text-faint);">Mensuel · 14 sept.</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:14.5px;font-weight:700;">9,99&nbsp;€</div>
+              <div class="mono" style="font-size:10px;font-weight:700;color:var(--blue);">CONFIANCE ÉLEVÉE</div>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:2px solid var(--border);background:var(--yellow);">
+            <div class="hard-sm" style="width:38px;height:38px;background:var(--surface);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:2px 2px 0 0 var(--border);">
+              <svg class="icon" style="width:18px;height:18px;stroke:var(--ink);" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 6h6v6"/></svg>
+            </div>
+            <div style="flex-grow:1;min-width:0;">
+              <div style="font-size:14.5px;font-weight:700;color:var(--yellow-ink);">DesignSuite</div>
+              <div style="font-size:12.5px;color:var(--yellow-ink);opacity:0.75;">9,99&nbsp;€ → 12,99&nbsp;€</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:14.5px;font-weight:700;color:var(--yellow-ink);">12,99&nbsp;€</div>
+              <div class="mono" style="font-size:10px;font-weight:700;color:var(--yellow-ink);">À VÉRIFIER</div>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 18px;">
+            <div class="hard-sm" style="width:38px;height:38px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:2px 2px 0 0 var(--border);">
+              <svg class="icon" style="width:18px;height:18px;stroke:var(--blue-ink);" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg>
+            </div>
+            <div style="flex-grow:1;min-width:0;">
+              <div style="font-size:14.5px;font-weight:700;">StreamPlus</div>
+              <div style="font-size:12.5px;color:var(--text-faint);">Annuel · 2 nov.</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:14.5px;font-weight:700;">89,00&nbsp;€</div>
+              <div class="mono" style="font-size:10px;font-weight:700;color:var(--text-faint);">MOYENNE</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-top:2.5px solid var(--border);">
+          <span class="mono" style="font-size:12px;color:var(--text-muted);font-weight:700;">Total mensuel</span>
+          <span style="font-size:19px;font-weight:700;">32,20&nbsp;€</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRUST BAR -->
+  <div style="border-top:2.5px solid var(--border);border-bottom:2.5px solid var(--border);background:var(--ink);">
+    <div class="container" style="display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:center;padding:18px 32px;">
+      <div class="mono" style="display:flex;align-items:center;gap:9px;color:var(--paper);font-size:12.5px;font-weight:700;">
+        <svg class="icon" style="width:16px;height:16px;stroke:var(--paper);" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        Tokenisation &amp; chiffrement
+      </div>
+      <div style="width:2px;height:16px;background:var(--paper);opacity:0.4;"></div>
+      <div class="mono" style="display:flex;align-items:center;gap:9px;color:var(--paper);font-size:12.5px;font-weight:700;">
+        <svg class="icon" style="width:16px;height:16px;stroke:var(--paper);" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6"/><path d="M15 14l2 2 4-4"/></svg>
+        Consentement explicite
+      </div>
+      <div style="width:2px;height:16px;background:var(--paper);opacity:0.4;"></div>
+      <div class="mono" style="display:flex;align-items:center;gap:9px;color:var(--paper);font-size:12.5px;font-weight:700;">
+        <svg class="icon" style="width:16px;height:16px;stroke:var(--paper);" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/></svg>
+        Suppression des données
+      </div>
+    </div>
+  </div>
+
+  <!-- VALUE PROP -->
+  <div class="container" style="padding:88px 32px 8px;">
+    <div style="max-width:640px;margin:0 0 52px;">
+      <h2 style="font-size:34px;font-weight:700;margin:0;">Pas un énième tableau de dépenses</h2>
+      <p style="font-size:16px;color:var(--text-muted);margin-top:12px;line-height:1.6;font-weight:500;">SubFlow ne se contente pas d'enregistrer vos abonnements : il vous aide à agir avant le prélèvement.</p>
+    </div>
+    <div class="grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2.5px solid var(--border);">
+      <div style="padding:28px;border-right:2.5px solid var(--border);">
+        <div class="hard-sm" style="width:46px;height:46px;background:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+          <svg class="icon" style="stroke:var(--blue-ink);" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        </div>
+        <h3 style="font-size:19px;font-weight:700;margin:0 0 8px;">Détecter automatiquement</h3>
+        <p style="font-size:14.5px;color:var(--text-muted);line-height:1.6;margin:0;font-weight:500;">Paiements récurrents, mensuels, annuels ou irréguliers, avec un niveau de confiance clair pour chaque détection.</p>
+      </div>
+      <div style="padding:28px;border-right:2.5px solid var(--border);">
+        <div class="hard-sm" style="width:46px;height:46px;background:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+          <svg class="icon" style="stroke:var(--blue-ink);" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+        </div>
+        <h3 style="font-size:19px;font-weight:700;margin:0 0 8px;">Prévenir au bon moment</h3>
+        <p style="font-size:14.5px;color:var(--text-muted);line-height:1.6;margin:0;font-weight:500;">Une alerte avant chaque prélèvement important, montant, date estimée et évolution de prix si elle existe.</p>
+      </div>
+      <div style="padding:28px;">
+        <div class="hard-sm" style="width:46px;height:46px;background:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+          <svg class="icon" style="stroke:var(--blue-ink);" viewBox="0 0 24 24"><path d="M20 12l-8 8-9-9V4h7l10 10z"/><circle cx="8" cy="8" r="1.3"/></svg>
+        </div>
+        <h3 style="font-size:19px;font-weight:700;margin:0 0 8px;">Décider en confiance</h3>
+        <p style="font-size:14.5px;color:var(--text-muted);line-height:1.6;margin:0;font-weight:500;">Gardez, surveillez ou résiliez chaque abonnement, avec un statut qui reflète votre décision réelle.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div id="comment-ca-marche" class="container" style="padding:96px 32px 8px;">
+    <div style="max-width:640px;margin:0 0 52px;">
+      <h2 style="font-size:34px;font-weight:700;margin:0;">Comment ça marche</h2>
+      <p style="font-size:16px;color:var(--text-muted);margin-top:12px;line-height:1.6;font-weight:500;">Une expérience simple, du premier lien bancaire à la première alerte.</p>
+    </div>
+    <div class="steps-row" style="display:flex;align-items:stretch;gap:0;border:2.5px solid var(--border);">
+
+      <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:24px 20px;border-right:2.5px solid var(--border);">
+        <span class="mono" style="font-size:12px;font-weight:700;color:var(--text-faint);">01</span>
+        <div class="hard-sm" style="width:44px;height:44px;background:var(--yellow);display:flex;align-items:center;justify-content:center;">
+          <svg class="icon" style="stroke:var(--yellow-ink);" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        </div>
+        <div style="font-size:15px;font-weight:700;">Connexion bancaire</div>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin:0;font-weight:500;">Autorisation sécurisée via un fournisseur Open Banking agréé.</p>
+      </div>
+
+      <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:24px 20px;border-right:2.5px solid var(--border);">
+        <span class="mono" style="font-size:12px;font-weight:700;color:var(--text-faint);">02</span>
+        <div class="hard-sm" style="width:44px;height:44px;background:var(--yellow);display:flex;align-items:center;justify-content:center;">
+          <svg class="icon" style="stroke:var(--yellow-ink);" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        </div>
+        <div style="font-size:15px;font-weight:700;">Détection</div>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin:0;font-weight:500;">Analyse des transactions pour repérer les paiements récurrents.</p>
+      </div>
+
+      <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:24px 20px;border-right:2.5px solid var(--border);">
+        <span class="mono" style="font-size:12px;font-weight:700;color:var(--text-faint);">03</span>
+        <div class="hard-sm" style="width:44px;height:44px;background:var(--yellow);display:flex;align-items:center;justify-content:center;">
+          <svg class="icon" style="stroke:var(--yellow-ink);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg>
+        </div>
+        <div style="font-size:15px;font-weight:700;">Confirmation</div>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin:0;font-weight:500;">Vous validez ou corrigez chaque abonnement détecté.</p>
+      </div>
+
+      <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:24px 20px;border-right:2.5px solid var(--border);">
+        <span class="mono" style="font-size:12px;font-weight:700;color:var(--text-faint);">04</span>
+        <div class="hard-sm" style="width:44px;height:44px;background:var(--yellow);display:flex;align-items:center;justify-content:center;">
+          <svg class="icon" style="stroke:var(--yellow-ink);" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        </div>
+        <div style="font-size:15px;font-weight:700;">Calendrier</div>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin:0;font-weight:500;">Toutes vos prochaines échéances réunies au même endroit.</p>
+      </div>
+
+      <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:24px 20px;">
+        <span class="mono" style="font-size:12px;font-weight:700;color:var(--text-faint);">05</span>
+        <div class="hard-sm" style="width:44px;height:44px;background:var(--yellow);display:flex;align-items:center;justify-content:center;">
+          <svg class="icon" style="stroke:var(--yellow-ink);" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+        </div>
+        <div style="font-size:15px;font-weight:700;">Alertes</div>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.5;margin:0;font-weight:500;">Une notification avant chaque échéance ou hausse de prix.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div id="fonctionnalites" class="container" style="padding:96px 32px 8px;">
+    <div style="max-width:640px;margin:0 0 52px;">
+      <h2 style="font-size:34px;font-weight:700;margin:0;">Tout ce qu'il faut pour garder le contrôle</h2>
+      <p style="font-size:16px;color:var(--text-muted);margin-top:12px;line-height:1.6;font-weight:500;">Cinq fonctionnalités pensées pour la clarté, pas pour la complexité.</p>
+    </div>
+    <div class="grid-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+
+      <div class="hard-sm" style="background:var(--surface);padding:26px;">
+        <div class="hard-sm" style="width:42px;height:42px;background:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:2px 2px 0 0 var(--border);">
+          <svg class="icon" style="width:20px;height:20px;stroke:var(--blue-ink);" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        </div>
+        <h3 style="font-size:16.5px;font-weight:700;margin:0 0 8px;">Détection automatique</h3>
+        <p style="font-size:14px;color:var(--text-muted);line-height:1.6;margin:0;font-weight:500;">Abonnements mensuels, annuels ou irréguliers, même à montant variable, avec un niveau de confiance affiché.</p>
+      </div>
+
+      <div class="hard-sm" style="background:var(--surface);padding:26px;">
+        <div class="hard-sm" style="width:42px;height:42px;background:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:2px 2px 0 0 var(--border);">
+          <svg class="icon" style="width:20px;height:20px;stroke:var(--blue-ink);" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg>
+        </div>
+        <h3 style="font-size:16.5px;font-weight:700;margin:0 0 8px;">Tableau de bord &amp; analytics</h3>
+        <p style="font-size:14px;color:var(--text-muted);line-height:1.6;margin:0;font-weight:500;">Dépenses par mois et par an, répartition par catégorie, abonnements les plus coûteux et calendrier.</p>
+      </div>
+
+      <div class="hard-sm" style="background:var(--surface);padding:26px;">
+        <div class="hard-sm" style="width:42px;height:42px;background:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:2px 2px 0 0 var(--border);">
+          <svg class="icon" style="width:20px;height:20px;stroke:var(--blue-ink);" viewBox="0 0 24 24"><path d="M20 12l-8 8-9-9V4h7l10 10z"/><circle cx="8" cy="8" r="1.3"/></svg>
+        </div>
+        <h3 style="font-size:16.5px;font-weight:700;margin:0 0 8px;">Gestion &amp; statuts</h3>
+        <p style="font-size:14px;color:var(--text-muted);line-height:1.6;margin:0;font-weight:500;">Actif, à vérifier, à résilier, en pause ou ignoré : chaque abonnement garde son statut.</p>
+      </div>
+
+      <div class="hard-sm" style="background:var(--surface);padding:26px;">
+        <div class="hard-sm" style="width:42px;height:42px;background:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:2px 2px 0 0 var(--border);">
+          <svg class="icon" style="width:20px;height:20px;stroke:var(--blue-ink);" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+        </div>
+        <h3 style="font-size:16.5px;font-weight:700;margin:0 0 8px;">Système d'alertes</h3>
+        <p style="font-size:14px;color:var(--text-muted);line-height:1.6;margin:0;font-weight:500;">Notifications par e-mail avant les prélèvements importants : service, montant, date estimée.</p>
+      </div>
+
+      <div class="hard-sm" style="background:var(--yellow);padding:26px;">
+        <div class="hard-sm" style="width:42px;height:42px;background:var(--surface);display:flex;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:2px 2px 0 0 var(--border);">
+          <svg class="icon" style="width:20px;height:20px;stroke:var(--yellow-ink);" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 6h6v6"/></svg>
+        </div>
+        <h3 style="font-size:16.5px;font-weight:700;margin:0 0 8px;color:var(--yellow-ink);">Détection des hausses de prix</h3>
+        <p style="font-size:14px;color:var(--yellow-ink);opacity:0.8;line-height:1.6;margin:0;font-weight:500;">Repérez immédiatement quand un abonnement passe, par exemple, de 9,99&nbsp;€ à 12,99&nbsp;€.</p>
+      </div>
+
+      <div class="hard-sm" style="background:var(--ink);padding:26px;display:flex;flex-direction:column;justify-content:center;">
+        <p style="font-size:14.5px;color:var(--paper);line-height:1.6;margin:0;font-weight:600;">« SubFlow vous aide à repérer les dépenses qui évoluent ou deviennent moins avantageuses. »</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div id="tarifs" class="container" style="padding:96px 32px 8px;">
+    <div style="max-width:640px;margin:0 0 48px;">
+      <h2 style="font-size:34px;font-weight:700;margin:0;">Un modèle simple, sans piège</h2>
+      <p style="font-size:16px;color:var(--text-muted);margin-top:12px;line-height:1.6;font-weight:500;">Découvrez SubFlow gratuitement, puis choisissez la formule adaptée à votre usage.</p>
+    </div>
+
+    <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;align-items:stretch;">
+
+      <div class="hard" style="background:var(--blue);padding:26px;display:flex;flex-direction:column;position:relative;">
+        <span class="mono hard-sm" style="position:absolute;top:-16px;left:20px;background:var(--yellow);color:var(--yellow-ink);font-size:11px;font-weight:700;padding:5px 12px;transform:rotate(-3deg);">RECOMMANDÉ</span>
+        <div class="mono" style="font-size:13px;font-weight:700;margin-top:10px;color:var(--blue-ink);">ESSAI GRATUIT</div>
+        <div style="font-size:30px;font-weight:700;margin-top:10px;color:var(--blue-ink);">3 mois</div>
+        <div class="mono" style="font-size:11.5px;color:var(--blue-ink);opacity:0.75;margin-bottom:18px;">ACCÈS COMPLET</div>
+        <p style="font-size:13.5px;color:var(--blue-ink);opacity:0.9;line-height:1.55;margin:0 0 18px;font-weight:500;">Toutes les fonctionnalités Pro, pour mesurer la vraie valeur de SubFlow.</p>
+        <a href="#" class="btn btn-yellow" style="margin-top:auto;">Démarrer l'essai</a>
+      </div>
+
+      <div class="hard-sm" style="background:var(--surface);padding:26px;display:flex;flex-direction:column;">
+        <div class="mono" style="font-size:13px;font-weight:700;margin-top:10px;color:var(--text-faint);">GRATUIT</div>
+        <div style="font-size:30px;font-weight:700;margin-top:10px;">0&nbsp;€</div>
+        <div class="mono" style="font-size:11.5px;color:var(--text-faint);margin-bottom:18px;">APRÈS L'ESSAI</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+          <div style="display:flex;gap:8px;font-size:13.5px;color:var(--text-muted);font-weight:500;"><svg class="icon" style="width:15px;height:15px;stroke:var(--ink);flex-shrink:0;margin-top:1px;" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Jusqu'à 5 abonnements suivis</div>
+          <div style="display:flex;gap:8px;font-size:13.5px;color:var(--text-muted);font-weight:500;"><svg class="icon" style="width:15px;height:15px;stroke:var(--ink);flex-shrink:0;margin-top:1px;" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Tableau de bord simple</div>
+          <div style="display:flex;gap:8px;font-size:13.5px;color:var(--text-muted);font-weight:500;"><svg class="icon" style="width:15px;height:15px;stroke:var(--ink);flex-shrink:0;margin-top:1px;" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Alertes e-mail de base</div>
+        </div>
+        <a href="#" class="btn" style="margin-top:auto;">Continuer gratuitement</a>
+      </div>
+
+      <div class="hard-sm" style="background:var(--surface);padding:26px;display:flex;flex-direction:column;">
+        <div class="mono" style="font-size:13px;font-weight:700;margin-top:10px;color:var(--text-faint);">PRO</div>
+        <div style="font-size:30px;font-weight:700;margin-top:10px;">[Prix Pro]&nbsp;€<span style="font-size:14px;font-weight:600;color:var(--text-faint);">/mois</span></div>
+        <div class="mono" style="font-size:11.5px;color:var(--text-faint);margin-bottom:18px;">FACTURÉ MENSUELLEMENT</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+          <div style="display:flex;gap:8px;font-size:13.5px;color:var(--text-muted);font-weight:500;"><svg class="icon" style="width:15px;height:15px;stroke:var(--ink);flex-shrink:0;margin-top:1px;" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Abonnements illimités</div>
+          <div style="display:flex;gap:8px;font-size:13.5px;color:var(--text-muted);font-weight:500;"><svg class="icon" style="width:15px;height:15px;stroke:var(--ink);flex-shrink:0;margin-top:1px;" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Plusieurs comptes bancaires</div>
+          <div style="display:flex;gap:8px;font-size:13.5px;color:var(--text-muted);font-weight:500;"><svg class="icon" style="width:15px;height:15px;stroke:var(--ink);flex-shrink:0;margin-top:1px;" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Notifications Telegram / SMS</div>
+          <div style="display:flex;gap:8px;font-size:13.5px;color:var(--text-muted);font-weight:500;"><svg class="icon" style="width:15px;height:15px;stroke:var(--ink);flex-shrink:0;margin-top:1px;" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Détection des hausses de prix</div>
+          <div style="display:flex;gap:8px;font-size:13.5px;color:var(--text-muted);font-weight:500;"><svg class="icon" style="width:15px;height:15px;stroke:var(--ink);flex-shrink:0;margin-top:1px;" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Règles d'alerte personnalisées</div>
+        </div>
+        <a href="#" class="btn" style="margin-top:auto;">Passer en Pro</a>
+      </div>
+
+      <div class="hard-sm" style="background:var(--surface);padding:26px;display:flex;flex-direction:column;">
+        <div class="mono" style="font-size:13px;font-weight:700;margin-top:10px;color:var(--text-faint);">ANNUEL</div>
+        <div style="font-size:30px;font-weight:700;margin-top:10px;">[Prix annuel]&nbsp;€<span style="font-size:14px;font-weight:600;color:var(--text-faint);">/an</span></div>
+        <div class="mono" style="font-size:11.5px;color:var(--ink);background:var(--yellow);display:inline-block;padding:2px 8px;margin-bottom:18px;width:fit-content;">TARIF PRÉFÉRENTIEL</div>
+        <p style="font-size:13.5px;color:var(--text-muted);line-height:1.55;margin:0 0 18px;font-weight:500;">Toutes les fonctionnalités Pro, engagement annuel, pour les utilisateurs convaincus sur la durée.</p>
+        <a href="#" class="btn" style="margin-top:auto;">Choisir l'offre annuelle</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CLOSING CTA -->
+  <div class="container" style="padding:96px 32px;">
+    <div class="hard" style="background:var(--blue);padding:64px 40px;text-align:center;position:relative;">
+      <span class="mono hard-sm" style="position:absolute;top:-18px;right:40px;background:var(--pink);color:var(--pink-ink);font-size:11px;font-weight:700;padding:6px 14px;transform:rotate(3deg);">C'EST GRATUIT</span>
+      <h2 style="font-size:32px;font-weight:700;color:var(--blue-ink);margin:0;">Reprenez le contrôle de vos abonnements dès aujourd'hui</h2>
+      <p style="font-size:15.5px;color:var(--blue-ink);opacity:0.85;margin:14px 0 0;max-width:480px;margin-left:auto;margin-right:auto;font-weight:500;">Connexion bancaire sécurisée, détection automatique, alertes préventives. Sans carte requise pour l'essai.</p>
+      <a href="#tarifs" class="btn btn-yellow" style="margin-top:28px;">Démarrer l'essai gratuit de 3 mois</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="border-top:2.5px solid var(--border);">
+    <div class="container" style="padding:44px 32px 40px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="hard-sm" style="width:28px;height:28px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg class="icon" style="width:16px;height:16px;stroke:var(--blue-ink);" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 6h6v6"/></svg>
+        </div>
+        <span class="mono" style="font-size:12px;color:var(--text-faint);font-weight:600;">© 2026 SUBFLOW</span>
+      </div>
+      <div style="display:flex;gap:24px;flex-wrap:wrap;">
+        <a href="#" style="color:var(--ink);font-size:13.5px;font-weight:600;">Sécurité</a>
+        <a href="#" style="color:var(--ink);font-size:13.5px;font-weight:600;">Confidentialité</a>
+        <a href="#" style="color:var(--ink);font-size:13.5px;font-weight:600;">CGU</a>
+        <a href="#" style="color:var(--ink);font-size:13.5px;font-weight:600;">Contact</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
