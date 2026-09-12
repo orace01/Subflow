@@ -6,25 +6,38 @@ base de données et un vrai système d'authentification.
 
 ## Démarrer
 
-```bash
-npm install
-npx prisma migrate deploy   # crée prisma/dev.db à partir des migrations
-npm run dev
-```
+1. Crée un projet sur [supabase.com](https://supabase.com) (gratuit).
+2. Dans le dashboard, bouton **Connect → ORM → Prisma**, récupère les deux
+   variables et colle-les dans `.env` (copie `.env.example`) : `DATABASE_URL`
+   (pooler mode transaction, port 6543) et `DIRECT_URL` (même pooler, mode
+   session, port 5432).
+3.
+   ```bash
+   npm install                        # déclenche `prisma generate` (postinstall)
+   npx prisma migrate deploy          # applique les migrations sur ta base Supabase
+   npm run dev
+   ```
 
 Ouvre [http://localhost:3000](http://localhost:3000).
 
+**Sur Vercel** : ajoute les deux mêmes variables (`DATABASE_URL`, `DIRECT_URL`)
+dans Project Settings → Environment Variables, puis redéploie. `prisma
+generate` tourne automatiquement après `npm install` (script `postinstall`) —
+c'était la cause du premier échec de build (types Prisma introuvables).
+
 ## Authentification & base de données (réelles)
 
-- **Base de données** : SQLite via Prisma (`prisma/schema.prisma`), pilotée
-  par le driver adapter `@prisma/adapter-better-sqlite3` — aucune
-  infrastructure externe à fournir, le fichier vit dans `prisma/dev.db`
-  (ignoré par git). Deux tables : `User` (identité, mot de passe hashé, offre
-  choisie, statut de connexion e-mail) et `Session` (jetons d'authentification
-  opaques, avec expiration). Migrations versionnées dans `prisma/migrations/`.
-  Pour passer sur Postgres/Supabase en production : changer `provider` dans
-  `prisma/schema.prisma` et l'adapter dans `lib/db.ts`, le reste du code ne
-  bouge pas (tout passe par `db.*` de Prisma).
+- **Base de données** : PostgreSQL (Supabase) via Prisma
+  (`prisma/schema.prisma`), pilotée par le driver adapter `@prisma/adapter-pg`.
+  Cinq tables : `User`, `Session`, `LoginAttempt`, `Subscription`,
+  `PriceChange`. Migrations versionnées dans `prisma/migrations/` — générées
+  et vérifiées contre un vrai Postgres avant d'être committées, donc prêtes à
+  appliquer telles quelles sur Supabase (`prisma migrate deploy`).
+  `DATABASE_URL` (pooler Supabase, mode transaction) est utilisé par l'app à
+  l'exécution (`lib/db.ts`) ; `DIRECT_URL` (même pooler, mode session) est
+  utilisé uniquement par la CLI Prisma pour les migrations
+  (`prisma.config.ts`) — le mode transaction ne supporte pas le verrouillage
+  au niveau session dont Prisma Migrate a besoin.
 - **Mots de passe** : hashés avec bcrypt (12 rounds, `lib/auth.ts`) — jamais
   stockés ni renvoyés en clair.
 - **Sessions** : un jeton aléatoire de 32 octets (pas l'id utilisateur) est
@@ -126,7 +139,7 @@ prisma/
   schema.prisma                 User, Session, LoginAttempt, Subscription, PriceChange
   migrations/                   Historique de migrations (versionné)
 lib/
-  db.ts                         Client Prisma (singleton + driver adapter SQLite)
+  db.ts                         Client Prisma (singleton + driver adapter Postgres, DATABASE_URL)
   auth.ts                       Hash de mot de passe, sessions, cookies
   detection.ts                  Seed de détection (à remplacer par le vrai parsing d'e-mails)
   user-subscriptions.ts         Accès DB par utilisateur (lecture + changement de statut scopé)
