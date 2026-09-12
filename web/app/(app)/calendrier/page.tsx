@@ -1,15 +1,19 @@
 import { Topbar } from "@/components/app/Topbar";
 import { CalendarView } from "@/components/app/CalendarView";
-import { getSubscriptions } from "@/lib/subscriptions";
+import { getCurrentUser } from "@/lib/auth";
+import { getUserSubscriptions } from "@/lib/user-subscriptions";
 
 export const metadata = { title: "Calendrier · SubFlow" };
 
-export default function CalendrierPage() {
+export default async function CalendrierPage() {
+  const user = await getCurrentUser();
+  const subs = user ? await getUserSubscriptions(user.id) : [];
+
   return (
     <>
       <Topbar title="Calendrier des prélèvements" showSync />
       <div className="px-8 py-7 pb-12">
-        <CalendarView subscriptions={getSubscriptions()} />
+        <CalendarView subscriptions={subs} />
       </div>
     </>
   );

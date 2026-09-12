@@ -1,5 +1,6 @@
-import { LockIcon } from "@/components/icons";
+import { MailIcon } from "@/components/icons";
 import { LinkButton } from "@/components/ui/Button";
+import { Reveal } from "@/components/Reveal";
 import { HeroMockupCard } from "./HeroMockupCard";
 
 export function Hero() {
@@ -8,8 +9,8 @@ export function Hero() {
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center">
         <div>
           <div className="inline-flex items-center gap-2 font-mono uppercase text-[12.5px] font-bold px-3.5 py-1.5 bg-yellow text-yellow-ink border-[2px] border-ink -rotate-1">
-            <LockIcon className="w-3.5 h-3.5" />
-            Connexion bancaire sécurisée
+            <MailIcon className="w-3.5 h-3.5" />
+            Détection par e-mail sécurisée
           </div>
           <h1 className="mt-6">
             <span
@@ -33,12 +34,12 @@ export function Hero() {
             </span>
           </h1>
           <p className="text-[15.5px] leading-relaxed text-text-muted mt-5 mb-8 max-w-[560px]">
-            Connectez votre compte, laissez SubFlow repérer vos paiements
-            récurrents, et gardez le contrôle sur ce que vous payez vraiment,
-            mois après mois.
+            Connectez votre boîte mail, laissez SubFlow repérer vos reçus
+            d&apos;abonnement, et gardez le contrôle sur ce que vous payez
+            vraiment, mois après mois.
           </p>
           <div className="flex gap-4 flex-wrap">
-            <LinkButton href="/onboarding/connexion" variant="primary">
+            <LinkButton href="/inscription?plan=essai" variant="primary">
               Démarrer l&apos;essai gratuit de 3 mois
             </LinkButton>
             <LinkButton href="#comment-ca-marche" variant="ghost">
@@ -46,11 +47,13 @@ export function Hero() {
             </LinkButton>
           </div>
           <p className="font-mono text-[12px] text-text-faint font-semibold mt-4">
-            Sans carte bancaire · résiliable à tout moment
+            Sans carte bancaire requise · résiliable à tout moment
           </p>
         </div>
 
-        <HeroMockupCard />
+        <Reveal delayMs={150}>
+          <HeroMockupCard />
+        </Reveal>
       </div>
     </div>
   );

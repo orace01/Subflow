@@ -6,6 +6,7 @@ import {
   TrendingUpIcon,
 } from "@/components/icons";
 import { Card } from "@/components/ui/Card";
+import { Reveal } from "@/components/Reveal";
 import { cn } from "@/lib/cn";
 
 const features = [
@@ -46,35 +47,37 @@ export function Features() {
   return (
     <div className="bg-paper">
     <div id="fonctionnalites" className="max-w-[1400px] mx-auto px-8 pt-24 pb-20">
-      <div className="max-w-[640px] mb-13">
-        <h2 className="text-[34px] font-bold">
-          Tout ce qu&apos;il faut pour garder le contrôle
-        </h2>
-        <p className="text-[16px] text-text-muted mt-3 leading-relaxed">
-          Cinq fonctionnalités pensées pour la clarté, pas pour la complexité.
-        </p>
-      </div>
+      <Reveal>
+        <div className="max-w-[640px] mb-13">
+          <h2 className="text-[34px] font-bold">
+            Tout ce qu&apos;il faut pour garder le contrôle
+          </h2>
+          <p className="text-[16px] text-text-muted mt-3 leading-relaxed">
+            Cinq fonctionnalités pensées pour la clarté, pas pour la complexité.
+          </p>
+        </div>
+      </Reveal>
       <div className="grid grid-cols-1 md:grid-cols-6 gap-5">
-        {features.map(({ icon: Icon, title, body, span, accent }) => (
-          <Card
-            key={title}
-            className={cn(
-              "hard-sm p-6.5",
-              span,
-              accent && "border-yellow-ink/40 bg-yellow/25"
-            )}
-          >
-            <span
+        {features.map(({ icon: Icon, title, body, span, accent }, i) => (
+          <Reveal key={title} delayMs={i * 80} className={span}>
+            <Card
               className={cn(
-                "hard-xs w-10 h-10 flex items-center justify-center mb-4",
-                accent ? "bg-surface" : "bg-blue/10"
+                "group hard-sm hard-hover p-6.5 h-full cursor-default",
+                accent && "border-yellow-ink/40 bg-yellow/25"
               )}
             >
-              <Icon className={cn("w-5 h-5", accent ? "text-yellow-ink" : "text-blue")} />
-            </span>
-            <h3 className="text-[16.5px] font-bold mb-2">{title}</h3>
-            <p className="text-[14px] text-text-muted leading-relaxed">{body}</p>
-          </Card>
+              <span
+                className={cn(
+                  "hard-xs w-10 h-10 flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110",
+                  accent ? "bg-surface" : "bg-blue/10"
+                )}
+              >
+                <Icon className={cn("w-5 h-5", accent ? "text-yellow-ink" : "text-blue")} />
+              </span>
+              <h3 className="text-[16.5px] font-bold mb-2">{title}</h3>
+              <p className="text-[14px] text-text-muted leading-relaxed">{body}</p>
+            </Card>
+          </Reveal>
         ))}
       </div>
     </div>

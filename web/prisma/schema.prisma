@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id             String    @id @default(cuid())
+  firstName      String
+  lastName       String
+  email          String    @unique
+  passwordHash   String
+  plan           String    @default("essai")
+  emailConnected Boolean   @default(false)
+  emailProvider  String?
+  createdAt      DateTime  @default(now())
+  sessions       Session[]
+  subscriptions  Subscription[]
+  loginAttempts  LoginAttempt[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// Failed sign-in attempts, keyed by the submitted e-mail (not the user id,
+// since a wrong e-mail should still count towards the lockout). Cleared on
+// a successful login. Purely local bookkeeping — no external service needed.
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  email     String
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model Subscription {
+  id                String        @id @default(cuid())
+  userId            String
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name              String
+  category          String
+  amount            Float
+  previousAmount    Float?
+  frequency         String // "mensuel" | "annuel" | "irregulier"
+  nextChargeDate    DateTime
+  firstDetectedDate DateTime
+  status            String        @default("a-verifier") // "actif" | "a-verifier" | "a-resilier" | "en-pause" | "ignore"
+  confidence        String        @default("moyenne") // "elevee" | "moyenne" | "a-verifier"
+  account           String        @default("")
+  createdAt         DateTime      @default(now())
+  priceHistory      PriceChange[]
+
+  @@index([userId])
+}
+
+model PriceChange {
+  id             String       @id @default(cuid())
+  subscriptionId String
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  date           DateTime
+  amount         Float
+
+  @@index([subscriptionId])
+}

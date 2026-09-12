@@ -79,4 +79,24 @@
   .hard-flat {
     border: 2.5px solid var(--ink);
   }
+
+  /* Opt-in hover animation for card-like elements: lifts on hover and
+     grows its own offset shadow by the same amount, so it stays consistent
+     with the .hard/.hard-sm/.hard-xs it's paired with. Buttons already
+     animate this way inline; this brings the same feel to cards. */
+  .hard-hover {
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+  .hard-hover:hover {
+    transform: translate(-3px, -3px);
+  }
+  .hard-xs.hard-hover:hover {
+    box-shadow: 5px 5px 0 0 var(--ink);
+  }
+  .hard-sm.hard-hover:hover {
+    box-shadow: 6px 6px 0 0 var(--ink);
+  }
+  .hard.hard-hover:hover {
+    box-shadow: 9px 9px 0 0 var(--ink);
+  }
 }

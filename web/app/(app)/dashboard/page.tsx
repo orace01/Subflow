@@ -1,11 +1,11 @@
 import { Topbar } from "@/components/app/Topbar";
 import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import { RefreshIcon } from "@/components/icons";
+import { SyncCard } from "@/components/app/SyncCard";
 import Link from "next/link";
 import { formatAmount, dayOfMonth, monthLabel3 } from "@/lib/format";
+import { getCurrentUser } from "@/lib/auth";
+import { getUserSubscriptions } from "@/lib/user-subscriptions";
 import {
-  getSubscriptions,
   computeMonthlyTotal,
   computeAnnualEstimate,
   computeCategoryBreakdown,
@@ -16,15 +16,37 @@ import {
 
 export const metadata = { title: "Tableau de bord · SubFlow" };
 
-export default function DashboardPage() {
-  const subs = getSubscriptions();
+export default async function DashboardPage() {
+  const user = await getCurrentUser();
+  const subs = user ? await getUserSubscriptions(user.id) : [];
+
   const monthlyTotal = computeMonthlyTotal(subs);
   const annualEstimate = computeAnnualEstimate(subs);
   const categories = computeCategoryBreakdown(subs);
-  const maxCategory = Math.max(...categories.map((c) => c.amount));
+  const maxCategory = Math.max(1, ...categories.map((c) => c.amount));
   const topSpenders = computeTopSpenders(subs, 3);
   const statusCounts = computeStatusCounts(subs);
   const upcoming = computeUpcomingCharges(subs, 3);
+
+  if (subs.length === 0) {
+    return (
+      <>
+        <Topbar title="Tableau de bord" showSync />
+        <div className="px-8 py-16 text-center">
+          <h2 className="text-[20px] font-bold">Aucun abonnement détecté pour l&apos;instant</h2>
+          <p className="text-[14px] text-text-muted mt-2">
+            Connectez votre boîte mail pour lancer la première détection.
+          </p>
+          <Link
+            href="/onboarding/email"
+            className="inline-flex mt-5 h-11 px-5 items-center justify-center bg-blue text-blue-ink border-[2.5px] border-ink font-bold text-[14px] no-underline"
+          >
+            Connecter ma boîte mail
+          </Link>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -149,20 +171,7 @@ export default function DashboardPage() {
               </Link>
             </Card>
 
-            <div className="hard-sm bg-ink p-5">
-              <div className="flex items-center gap-2.5">
-                <RefreshIcon className="w-[18px] h-[18px] text-paper" />
-                <span className="font-mono text-[11px] font-bold text-paper">
-                  SYNCHRONISATION
-                </span>
-              </div>
-              <p className="text-[13px] text-paper/80 leading-relaxed mt-2.5 mb-3.5">
-                Dernière synchro il y a 2 heures. Tout est à jour.
-              </p>
-              <Button variant="primary" className="w-full">
-                Resynchroniser
-              </Button>
-            </div>
+            <SyncCard />
           </div>
         </div>
       </div>

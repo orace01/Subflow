@@ -9,11 +9,11 @@ export function ClosingCta() {
           Reprenez le contrôle de vos abonnements dès aujourd&apos;hui
         </h2>
         <p className="text-[15.5px] text-blue-ink/85 mt-3.5 max-w-[480px] mx-auto font-medium">
-          Connexion bancaire sécurisée, détection automatique, alertes
+          Connexion e-mail sécurisée, détection automatique, alertes
           préventives. Sans carte requise pour l&apos;essai.
         </p>
         <LinkButton
-          href="/onboarding/connexion"
+          href="/inscription?plan=essai"
           variant="ghost"
           className="mt-7 !bg-yellow !text-yellow-ink"
         >

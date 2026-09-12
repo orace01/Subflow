@@ -24,10 +24,10 @@ export function Navbar() {
           </a>
         </div>
         <div className="flex items-center gap-3.5">
-          <Link href="/onboarding/connexion" className="text-[14.5px] font-semibold no-underline hidden sm:inline">
+          <Link href="/connexion" className="text-[14.5px] font-semibold no-underline hidden sm:inline">
             Connexion
           </Link>
-          <LinkButton href="/onboarding/connexion" variant="primary" size="sm">
+          <LinkButton href="/inscription?plan=essai" variant="primary" size="sm">
             Essai gratuit
           </LinkButton>
         </div>

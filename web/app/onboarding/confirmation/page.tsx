@@ -1,11 +1,20 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { LogoMarkIcon } from "@/components/icons";
 import { OnboardingStepper } from "@/components/onboarding/OnboardingStepper";
 import { ConfirmationList } from "@/components/onboarding/ConfirmationList";
+import { getCurrentUser } from "@/lib/auth";
+import { getUserSubscriptions } from "@/lib/user-subscriptions";
 
 export const metadata = { title: "Confirmez vos abonnements · SubFlow" };
 
-export default function ConfirmationPage() {
+export default async function ConfirmationPage() {
+  const user = await getCurrentUser();
+  if (!user) redirect("/inscription");
+
+  const subs = await getUserSubscriptions(user.id);
+  const pending = subs.filter((s) => s.status === "a-verifier");
+
   return (
     <div className="min-h-screen flex flex-col">
       <div className="border-b-[2.5px] border-ink px-8 py-5">
@@ -28,12 +37,12 @@ export default function ConfirmationPage() {
         <div className="max-w-[760px] mx-auto">
           <h1 className="text-[28px] font-bold">Confirmez vos abonnements détectés</h1>
           <p className="text-[14.5px] text-text-muted mt-2.5 leading-relaxed">
-            Nous avons trouvé 9 paiements récurrents dans vos 90 derniers
-            jours de transactions. Vérifiez chacun avant de continuer — vous
-            pourrez toujours les modifier plus tard.
+            Nous avons trouvé {subs.length} paiement{subs.length > 1 ? "s" : ""} récurrent
+            {subs.length > 1 ? "s" : ""} dans vos reçus et factures. Vérifiez chacun avant de
+            continuer — vous pourrez toujours les modifier plus tard depuis vos abonnements.
           </p>
 
-          <ConfirmationList />
+          <ConfirmationList pending={pending} />
         </div>
       </div>
     </div>

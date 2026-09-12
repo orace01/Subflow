@@ -11,15 +11,33 @@ import {
   BellIcon,
   SettingsIcon,
 } from "@/components/icons";
+import { logoutAction } from "@/app/actions/auth";
 
 const navItems = [
   { href: "/dashboard", label: "Tableau de bord", icon: DashboardIcon },
   { href: "/abonnements", label: "Abonnements", icon: TagIcon },
   { href: "/calendrier", label: "Calendrier", icon: CalendarIcon },
   { href: "/alertes", label: "Alertes", icon: BellIcon },
+  { href: "/parametres", label: "Paramètres", icon: SettingsIcon },
 ];
 
-export function Sidebar() {
+const PLAN_LABELS: Record<string, string> = {
+  essai: "Essai gratuit",
+  gratuit: "Gratuit",
+  pro: "Pro",
+  annuel: "Annuel",
+};
+
+export interface SidebarUser {
+  firstName: string;
+  lastName: string;
+  email: string;
+  plan: string;
+  trialDay: number;
+  trialLength: number;
+}
+
+export function Sidebar({ user }: { user: SidebarUser | null }) {
   const pathname = usePathname();
 
   return (
@@ -51,26 +69,57 @@ export function Sidebar() {
             </Link>
           );
         })}
-        <div className="flex items-center gap-3 px-3.5 py-2.5 text-[14px] font-semibold text-paper/60 cursor-default">
-          <SettingsIcon className="w-[18px] h-[18px]" />
-          Paramètres
-        </div>
       </div>
 
-      <div className="p-4">
-        <div className="hard-sm bg-surface p-3.5">
-          <div className="font-mono text-[10px] font-bold text-text-faint uppercase">
-            Essai gratuit
+      {user && (
+        <div className="p-4 flex flex-col gap-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full bg-blue flex items-center justify-center shrink-0 text-blue-ink text-[12px] font-bold">
+              {user.firstName[0]}
+              {user.lastName[0]}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-[12.5px] font-semibold text-paper truncate">
+                {user.firstName} {user.lastName}
+              </div>
+              <div className="text-[11px] text-paper/50 truncate">{user.email}</div>
+            </div>
+            <form action={logoutAction}>
+              <button
+                type="submit"
+                title="Se déconnecter"
+                className="text-paper/50 hover:text-paper text-[11px] font-bold cursor-pointer"
+              >
+                ⏻
+              </button>
+            </form>
           </div>
-          <div className="text-[12.5px] font-semibold mt-1">Jour 12 sur 90</div>
-          <div className="h-1.5 bg-paper-alt border-[1.5px] border-ink mt-2">
-            <div className="h-full w-[13%] bg-blue" />
+
+          <div className="hard-sm bg-surface p-3.5">
+            <div className="font-mono text-[10px] font-bold text-text-faint uppercase">
+              {PLAN_LABELS[user.plan] ?? user.plan}
+            </div>
+            {user.plan === "essai" && (
+              <>
+                <div className="text-[12.5px] font-semibold mt-1">
+                  Jour {user.trialDay} sur {user.trialLength}
+                </div>
+                <div className="h-1.5 bg-paper-alt border-[1.5px] border-ink mt-2">
+                  <div
+                    className="h-full bg-blue"
+                    style={{ width: `${Math.min(100, (user.trialDay / user.trialLength) * 100)}%` }}
+                  />
+                </div>
+              </>
+            )}
+            {user.plan !== "pro" && (
+              <Link href="/#tarifs" className="block text-[12px] font-bold text-blue mt-2.5 no-underline">
+                Passer en Pro →
+              </Link>
+            )}
           </div>
-          <Link href="/#tarifs" className="block text-[12px] font-bold text-blue mt-2.5 no-underline">
-            Passer en Pro →
-          </Link>
         </div>
-      </div>
+      )}
     </div>
   );
 }

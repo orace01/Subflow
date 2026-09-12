@@ -13,7 +13,7 @@ export function HeroMockupCard() {
     monthlyEquivalent(streamplus);
 
   return (
-    <div className="hard bg-surface overflow-hidden">
+    <div className="hard hard-hover bg-surface overflow-hidden cursor-default">
       <div className="flex items-center justify-between px-5 py-3.5 bg-ink">
         <span className="font-mono text-[12px] font-bold text-paper">
           Abonnements détectés

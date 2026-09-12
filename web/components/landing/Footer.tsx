@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LogoMarkIcon } from "@/components/icons";
 
 export function Footer() {
@@ -13,18 +14,18 @@ export function Footer() {
           </span>
         </div>
         <div className="flex gap-6 flex-wrap">
-          <a href="#" className="text-[13.5px] font-semibold text-ink no-underline">
+          <Link href="/securite" className="text-[13.5px] font-semibold text-ink no-underline">
             Sécurité
-          </a>
-          <a href="#" className="text-[13.5px] font-semibold text-ink no-underline">
+          </Link>
+          <Link href="/confidentialite" className="text-[13.5px] font-semibold text-ink no-underline">
             Confidentialité
-          </a>
-          <a href="#" className="text-[13.5px] font-semibold text-ink no-underline">
+          </Link>
+          <Link href="/cgu" className="text-[13.5px] font-semibold text-ink no-underline">
             CGU
-          </a>
-          <a href="#" className="text-[13.5px] font-semibold text-ink no-underline">
+          </Link>
+          <Link href="/contact" className="text-[13.5px] font-semibold text-ink no-underline">
             Contact
-          </a>
+          </Link>
         </div>
       </div>
     </div>

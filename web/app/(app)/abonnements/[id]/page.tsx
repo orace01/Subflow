@@ -1,15 +1,12 @@
 import { notFound } from "next/navigation";
 import { Topbar } from "@/components/app/Topbar";
 import { StatusSelector } from "@/components/app/StatusSelector";
+import { QuickStatusActions } from "@/components/app/QuickStatusActions";
 import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
 import { LogoMarkIcon, TrendingUpIcon } from "@/components/icons";
 import { formatAmount, formatDate } from "@/lib/format";
-import { getSubscriptionById, getSubscriptions } from "@/lib/subscriptions";
-
-export async function generateStaticParams() {
-  return getSubscriptions().map((s) => ({ id: s.id }));
-}
+import { getCurrentUser } from "@/lib/auth";
+import { getUserSubscriptionById } from "@/lib/user-subscriptions";
 
 export default async function AbonnementDetailPage({
   params,
@@ -17,7 +14,10 @@ export default async function AbonnementDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const sub = getSubscriptionById(id);
+  const user = await getCurrentUser();
+  if (!user) notFound();
+
+  const sub = await getUserSubscriptionById(user.id, id);
   if (!sub) notFound();
 
   const hasPriceHike = sub.previousAmount !== undefined;
@@ -67,7 +67,7 @@ export default async function AbonnementDetailPage({
             </div>
           </div>
 
-          <StatusSelector initialStatus={sub.status} />
+          <StatusSelector subscriptionId={sub.id} initialStatus={sub.status} />
         </Card>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-5">
@@ -130,20 +130,7 @@ export default async function AbonnementDetailPage({
         </Card>
 
         <Card className="p-5 mt-5 flex items-center justify-between gap-3 flex-wrap">
-          <span className="text-[13.5px] text-text-muted font-medium">
-            Vous ne reconnaissez plus ce service ?
-          </span>
-          <div className="flex gap-2.5">
-            <Button variant="ghost" size="sm">
-              Mettre en pause
-            </Button>
-            <Button variant="ghost" size="sm">
-              Ignorer définitivement
-            </Button>
-            <Button variant="pink" size="sm">
-              Résilier ce service
-            </Button>
-          </div>
+          <QuickStatusActions subscriptionId={sub.id} />
         </Card>
       </div>
     </>
