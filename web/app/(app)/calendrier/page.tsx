@@ -11,7 +11,7 @@ export default async function CalendrierPage() {
 
   return (
     <>
-      <Topbar title="Calendrier des prélèvements" showSync />
+      <Topbar title="Calendrier des prélèvements" />
       <div className="px-8 py-7 pb-12">
         <CalendarView subscriptions={subs} />
       </div>

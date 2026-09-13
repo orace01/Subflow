@@ -1,6 +1,5 @@
 import { Topbar } from "@/components/app/Topbar";
 import { Card } from "@/components/ui/Card";
-import { SyncCard } from "@/components/app/SyncCard";
 import Link from "next/link";
 import { formatAmount, dayOfMonth, monthLabel3 } from "@/lib/format";
 import { getCurrentUser } from "@/lib/auth";
@@ -31,17 +30,17 @@ export default async function DashboardPage() {
   if (subs.length === 0) {
     return (
       <>
-        <Topbar title="Tableau de bord" showSync />
+        <Topbar title="Tableau de bord" />
         <div className="px-8 py-16 text-center">
-          <h2 className="text-[20px] font-bold">Aucun abonnement détecté pour l&apos;instant</h2>
+          <h2 className="text-[20px] font-bold">Aucun abonnement pour l&apos;instant</h2>
           <p className="text-[14px] text-text-muted mt-2">
-            Connectez votre boîte mail pour lancer la première détection.
+            Ajoutez votre premier abonnement pour voir votre tableau de bord prendre vie.
           </p>
           <Link
-            href="/onboarding/email"
+            href="/abonnements"
             className="inline-flex mt-5 h-11 px-5 items-center justify-center bg-blue text-blue-ink border-[2.5px] border-ink font-bold text-[14px] no-underline"
           >
-            Connecter ma boîte mail
+            Ajouter un abonnement
           </Link>
         </div>
       </>
@@ -50,7 +49,7 @@ export default async function DashboardPage() {
 
   return (
     <>
-      <Topbar title="Tableau de bord" showSync />
+      <Topbar title="Tableau de bord" />
 
       <div className="px-8 py-7 pb-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -170,8 +169,6 @@ export default async function DashboardPage() {
                 Voir le calendrier complet →
               </Link>
             </Card>
-
-            <SyncCard />
           </div>
         </div>
       </div>

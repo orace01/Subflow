@@ -1,7 +1,7 @@
 import { cn } from "@/lib/cn";
 import { CheckIcon } from "@/components/icons";
 
-const steps = ["Compte", "E-mail", "Confirmation", "Terminé"];
+const steps = ["Compte", "Méthode", "Abonnements", "Terminé"];
 
 export function OnboardingStepper({
   activeStep,

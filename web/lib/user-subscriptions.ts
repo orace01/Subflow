@@ -49,6 +49,45 @@ export async function getUserSubscriptionById(
   return row ? toSubscription(row) : null;
 }
 
+export interface NewSubscriptionInput {
+  name: string;
+  category: string;
+  amount: number;
+  frequency: Frequency;
+  nextChargeDate: string; // ISO date (yyyy-mm-dd)
+}
+
+/**
+ * Manually-entered subscription: the user is the source of truth, so it
+ * starts `actif` with `elevee` confidence — there is nothing to confirm,
+ * unlike a (future) automated detection.
+ */
+export async function createSubscription(
+  userId: string,
+  input: NewSubscriptionInput
+): Promise<Subscription> {
+  const nextCharge = new Date(`${input.nextChargeDate}T00:00:00Z`);
+  const row = await db.subscription.create({
+    data: {
+      userId,
+      name: input.name,
+      category: input.category,
+      amount: input.amount,
+      frequency: input.frequency,
+      nextChargeDate: nextCharge,
+      firstDetectedDate: new Date(),
+      status: "actif",
+      confidence: "elevee",
+      account: "Ajouté manuellement",
+      priceHistory: {
+        create: [{ date: new Date(), amount: input.amount }],
+      },
+    },
+    include: { priceHistory: true },
+  });
+  return toSubscription(row);
+}
+
 const VALID_STATUSES: SubscriptionStatus[] = ["actif", "a-verifier", "a-resilier", "en-pause", "ignore"];
 
 /**

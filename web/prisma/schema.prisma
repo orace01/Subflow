@@ -15,6 +15,7 @@ model User {
   plan           String    @default("essai")
   emailConnected Boolean   @default(false)
   emailProvider  String?
+  detectionMethod String?  // "manuel" | "automatique" — choisi à l'onboarding
   createdAt      DateTime  @default(now())
   sessions       Session[]
   subscriptions  Subscription[]

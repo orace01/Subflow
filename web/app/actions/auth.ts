@@ -3,7 +3,6 @@
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { hashPassword, verifyPassword, createSession, destroySession, getCurrentUser } from "@/lib/auth";
-import { seedDetectedSubscriptions } from "@/lib/detection";
 
 export interface FormState {
   error?: string;
@@ -47,7 +46,7 @@ export async function signupAction(
   });
 
   await createSession(user.id);
-  redirect("/onboarding/email");
+  redirect("/onboarding/methode");
 }
 
 /**
@@ -102,16 +101,24 @@ export async function logoutAction(): Promise<void> {
   redirect("/");
 }
 
-export async function connectEmailAction(provider: string): Promise<void> {
+export type DetectionMethod = "manuel" | "automatique";
+
+/**
+ * Records the user's choice without redirecting: the client component
+ * decides what to show next (the manual-entry step directly, or the
+ * maintenance notice for "automatique") based on the returned method,
+ * since the two lead to different in-page views, not just different URLs.
+ */
+export async function chooseMethodAction(
+  method: DetectionMethod
+): Promise<{ method: DetectionMethod } | { error: string }> {
   const user = await getCurrentUser();
-  if (!user) redirect("/inscription");
+  if (!user) return { error: "Non connecté." };
 
   await db.user.update({
     where: { id: user.id },
-    data: { emailConnected: true, emailProvider: provider },
+    data: { detectionMethod: method },
   });
 
-  await seedDetectedSubscriptions(user.id);
-
-  redirect("/onboarding/confirmation");
+  return { method };
 }

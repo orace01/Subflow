@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { SESSION_COOKIE } from "@/lib/auth";
 
 const APP_ROUTES = ["/dashboard", "/abonnements", "/calendrier", "/alertes", "/parametres"];
-const ONBOARDING_ROUTES = ["/onboarding/email", "/onboarding/confirmation"];
+const ONBOARDING_ROUTES = ["/onboarding/methode", "/onboarding/abonnements"];
 const GUEST_ONLY_ROUTES = ["/connexion", "/inscription"];
 
 function matches(pathname: string, routes: string[]): boolean {
@@ -63,8 +63,8 @@ export const config = {
     "/calendrier/:path*",
     "/alertes/:path*",
     "/parametres/:path*",
-    "/onboarding/email",
-    "/onboarding/confirmation",
+    "/onboarding/methode",
+    "/onboarding/abonnements",
     "/connexion",
     "/inscription",
   ],

@@ -11,6 +11,24 @@ const base = {
   strokeLinejoin: "round" as const,
 };
 
+export function PlusIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  );
+}
+
+export function WrenchIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M14.7 6.3a4 4 0 0 1 5.4 5.4L21 13l-3 3-6.3-6.3" />
+      <path d="M9.3 11l-6 6 3 3 6-6" />
+      <path d="M14.7 6.3l-2.1 2.1 3 3 2.1-2.1" />
+    </svg>
+  );
+}
+
 export function LogoMarkIcon(props: IconProps) {
   return (
     <svg {...base} {...props}>
