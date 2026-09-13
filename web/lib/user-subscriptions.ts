@@ -38,6 +38,12 @@ export async function getUserSubscriptions(userId: string): Promise<Subscription
   return rows.map(toSubscription);
 }
 
+/** Subscriptions counted against the free-plan quota — an "ignore"d entry is,
+ * by definition, no longer something the user wants tracked. */
+export async function countTrackedSubscriptions(userId: string): Promise<number> {
+  return db.subscription.count({ where: { userId, status: { not: "ignore" } } });
+}
+
 export async function getUserSubscriptionById(
   userId: string,
   id: string
@@ -88,6 +94,45 @@ export async function createSubscription(
   return toSubscription(row);
 }
 
+/**
+ * Edits a manually-entered subscription's own details (name, category,
+ * amount, frequency, next charge date) — distinct from `updateSubscriptionStatus`,
+ * which only changes its lifecycle status. Ownership-scoped the same way. A
+ * changed amount is recorded as a real price change (same as a detected hike
+ * would be), so the history stays meaningful.
+ */
+export async function updateSubscriptionDetails(
+  userId: string,
+  id: string,
+  input: NewSubscriptionInput
+): Promise<boolean> {
+  const existing = await db.subscription.findFirst({ where: { id, userId } });
+  if (!existing) return false;
+
+  const nextCharge = new Date(`${input.nextChargeDate}T00:00:00Z`);
+  const priceChanged = existing.amount !== input.amount;
+
+  const result = await db.subscription.updateMany({
+    where: { id, userId },
+    data: {
+      name: input.name,
+      category: input.category,
+      amount: input.amount,
+      previousAmount: priceChanged ? existing.amount : existing.previousAmount,
+      frequency: input.frequency,
+      nextChargeDate: nextCharge,
+    },
+  });
+  if (result.count === 0) return false;
+
+  if (priceChanged) {
+    await db.priceChange.create({
+      data: { subscriptionId: id, date: new Date(), amount: input.amount },
+    });
+  }
+  return true;
+}
+
 const VALID_STATUSES: SubscriptionStatus[] = ["actif", "a-verifier", "a-resilier", "en-pause", "ignore"];
 
 /**
@@ -106,5 +151,16 @@ export async function updateSubscriptionStatus(
     where: { id, userId },
     data: { status },
   });
+  return result.count > 0;
+}
+
+/**
+ * Removes a tracked subscription entirely (e.g. a typo or duplicate entry),
+ * as opposed to `updateSubscriptionStatus(..., "a-resilier")` which just
+ * marks a real-world service for cancellation while keeping its history.
+ * Scoped to its owner via the same compound `id` + `userId` filter.
+ */
+export async function deleteSubscription(userId: string, id: string): Promise<boolean> {
+  const result = await db.subscription.deleteMany({ where: { id, userId } });
   return result.count > 0;
 }

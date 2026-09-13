@@ -5,7 +5,13 @@ import { MethodChoice } from "@/components/onboarding/MethodChoice";
 
 export const metadata = { title: "Comment suivre vos abonnements · SubFlow" };
 
-export default function MethodePage() {
+export default async function MethodePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ checkout?: string }>;
+}) {
+  const { checkout } = await searchParams;
+
   return (
     <div className="min-h-screen flex flex-col">
       <div className="border-b-[2.5px] border-ink px-8 py-5">
@@ -24,7 +30,24 @@ export default function MethodePage() {
         <OnboardingStepper activeStep={2} />
       </div>
 
-      <div className="flex-1 flex items-start justify-center px-8 pt-12 pb-16">
+      <div className="flex-1 flex flex-col items-center px-8 pt-12 pb-16">
+        {checkout === "unavailable" && (
+          <div className="hard-sm bg-surface border-[2px] border-ink px-4.5 py-3 mb-6 max-w-[640px] w-full text-[13px] font-semibold text-center">
+            Le paiement en ligne (Pro/Annuel) n&apos;est pas encore disponible. Votre compte est
+            actif sur l&apos;essai gratuit en attendant.
+          </div>
+        )}
+        {checkout === "error" && (
+          <div className="hard-sm bg-yellow px-4.5 py-3 mb-6 max-w-[640px] w-full text-[13px] font-semibold text-yellow-ink text-center">
+            Le paiement n&apos;a pas pu être initié. Votre compte reste actif sur l&apos;essai
+            gratuit — vous pourrez repasser en Pro depuis les paramètres.
+          </div>
+        )}
+        {checkout === "cancel" && (
+          <div className="hard-sm bg-surface border-[2px] border-ink px-4.5 py-3 mb-6 max-w-[640px] w-full text-[13px] font-semibold text-center">
+            Paiement annulé. Votre compte reste actif sur l&apos;essai gratuit.
+          </div>
+        )}
         <MethodChoice />
       </div>
     </div>

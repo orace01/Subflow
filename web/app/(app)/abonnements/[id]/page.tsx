@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import { Topbar } from "@/components/app/Topbar";
 import { StatusSelector } from "@/components/app/StatusSelector";
 import { QuickStatusActions } from "@/components/app/QuickStatusActions";
+import { DeleteSubscriptionButton } from "@/components/app/DeleteSubscriptionButton";
+import { EditSubscriptionPanel } from "@/components/app/EditSubscriptionPanel";
 import { Card } from "@/components/ui/Card";
 import { LogoMarkIcon, TrendingUpIcon } from "@/components/icons";
 import { formatAmount, formatDate } from "@/lib/format";
@@ -68,6 +70,23 @@ export default async function AbonnementDetailPage({
           </div>
 
           <StatusSelector subscriptionId={sub.id} initialStatus={sub.status} />
+
+          <div className="mt-4">
+            <EditSubscriptionPanel
+              subscriptionId={sub.id}
+              initialValues={{
+                name: sub.name,
+                category: sub.category,
+                amount: sub.amount,
+                frequency: sub.frequency,
+                nextChargeDate: sub.nextChargeDate,
+              }}
+            />
+          </div>
+
+          <div className="flex justify-end mt-3">
+            <DeleteSubscriptionButton subscriptionId={sub.id} />
+          </div>
         </Card>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-5">

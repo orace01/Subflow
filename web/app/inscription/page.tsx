@@ -43,8 +43,8 @@ export default async function InscriptionPage({
         <div className="max-w-[440px] w-full">
           <h1 className="text-[30px] font-bold text-center">Créez votre compte</h1>
           <p className="text-[15px] text-text-muted mt-3 text-center leading-relaxed">
-            Quelques informations pour démarrer, puis on connecte votre boîte
-            mail à l&apos;étape suivante.
+            Quelques informations pour démarrer, puis on choisit comment
+            suivre vos abonnements à l&apos;étape suivante.
           </p>
 
           <div className="hard-sm bg-blue px-4.5 py-3.5 flex items-center gap-3 mt-6">
@@ -56,6 +56,12 @@ export default async function InscriptionPage({
               <div className="text-[12px] text-blue-ink/80">{planInfo.detail}</div>
             </div>
           </div>
+
+          {(plan === "pro" || plan === "annuel") && (
+            <p className="text-[12.5px] text-text-faint text-center mt-3">
+              Vous serez redirigé vers un paiement sécurisé juste après.
+            </p>
+          )}
 
           <SignupForm plan={plan} />
 

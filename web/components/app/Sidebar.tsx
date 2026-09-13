@@ -12,6 +12,8 @@ import {
   SettingsIcon,
 } from "@/components/icons";
 import { logoutAction } from "@/app/actions/auth";
+import { UpgradeButton } from "@/components/app/UpgradeButton";
+import { PAYMENTS_ENABLED } from "@/lib/billing-config";
 
 const navItems = [
   { href: "/dashboard", label: "Tableau de bord", icon: DashboardIcon },
@@ -112,11 +114,20 @@ export function Sidebar({ user }: { user: SidebarUser | null }) {
                 </div>
               </>
             )}
-            {user.plan !== "pro" && (
-              <Link href="/#tarifs" className="block text-[12px] font-bold text-blue mt-2.5 no-underline">
-                Passer en Pro →
-              </Link>
-            )}
+            {user.plan !== "pro" &&
+              user.plan !== "annuel" &&
+              (PAYMENTS_ENABLED ? (
+                <UpgradeButton
+                  plan="pro"
+                  className="block w-full text-left text-[12px] font-bold text-blue mt-2.5 cursor-pointer bg-transparent border-0 p-0"
+                >
+                  Passer en Pro →
+                </UpgradeButton>
+              ) : (
+                <div className="text-[12px] font-semibold text-paper/40 mt-2.5">
+                  Pro bientôt disponible
+                </div>
+              ))}
           </div>
         </div>
       )}

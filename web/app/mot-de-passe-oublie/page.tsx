@@ -1,16 +1,10 @@
 import Link from "next/link";
 import { LogoMarkIcon } from "@/components/icons";
-import { LoginForm } from "@/components/onboarding/LoginForm";
+import { ForgotPasswordForm } from "@/components/onboarding/ForgotPasswordForm";
 
-export const metadata = { title: "Connexion · SubFlow" };
+export const metadata = { title: "Mot de passe oublié · SubFlow" };
 
-export default async function ConnexionPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ reset?: string }>;
-}) {
-  const { reset } = await searchParams;
-
+export default function MotDePasseOubliePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <div className="border-b-[2.5px] border-ink px-8 py-5">
@@ -26,23 +20,16 @@ export default async function ConnexionPage({
 
       <div className="flex-1 flex items-center justify-center px-8 py-16">
         <div className="max-w-[440px] w-full">
-          <h1 className="text-[30px] font-bold text-center">Bon retour</h1>
+          <h1 className="text-[30px] font-bold text-center">Mot de passe oublié</h1>
           <p className="text-[15px] text-text-muted mt-3 text-center leading-relaxed">
-            Connectez-vous pour retrouver votre tableau de bord SubFlow.
+            Indiquez votre e-mail, on vous envoie un lien pour en choisir un nouveau.
           </p>
 
-          {reset && (
-            <div className="hard-sm bg-blue px-4.5 py-3 mt-6 text-[13.5px] font-semibold text-blue-ink text-center">
-              Mot de passe mis à jour. Connectez-vous avec le nouveau.
-            </div>
-          )}
-
-          <LoginForm />
+          <ForgotPasswordForm />
 
           <p className="text-[13px] text-text-muted text-center mt-5">
-            Pas encore de compte ?{" "}
-            <Link href="/inscription?plan=essai" className="font-semibold">
-              Démarrer l&apos;essai gratuit
+            <Link href="/connexion" className="font-semibold">
+              ← Retour à la connexion
             </Link>
           </p>
         </div>

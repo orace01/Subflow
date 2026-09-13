@@ -16,10 +16,17 @@ model User {
   emailConnected Boolean   @default(false)
   emailProvider  String?
   detectionMethod String?  // "manuel" | "automatique" — choisi à l'onboarding
+  alertBeforeCharge Boolean @default(true)
+  alertPriceHike    Boolean @default(true)
+  alertWeeklyDigest Boolean @default(false)
+  alertDelayDays    Int     @default(3)
+  stripeCustomerId     String?  @unique
+  stripeSubscriptionId String?
   createdAt      DateTime  @default(now())
   sessions       Session[]
   subscriptions  Subscription[]
   loginAttempts  LoginAttempt[]
+  passwordResetTokens PasswordResetToken[]
 }
 
 model Session {
@@ -43,6 +50,21 @@ model LoginAttempt {
   createdAt DateTime @default(now())
 
   @@index([email])
+}
+
+// Password-reset link, single-use. Only a SHA-256 hash of the raw token is
+// stored — like a password hash, this means a DB leak alone can't be used to
+// take over an account (the raw token only ever exists in the emailed link).
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
 }
 
 model Subscription {

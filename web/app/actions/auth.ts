@@ -2,7 +2,9 @@
 
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { hashPassword, verifyPassword, createSession, destroySession, getCurrentUser } from "@/lib/auth";
+import { hashPassword, verifyPassword, createSession, destroySession, getCurrentUser, getBaseUrl } from "@/lib/auth";
+import { createCheckoutUrl, type PaidPlan } from "@/lib/billing";
+import { PAYMENTS_ENABLED } from "@/lib/billing-config";
 
 export interface FormState {
   error?: string;
@@ -26,7 +28,13 @@ export async function signupAction(
     .toLowerCase();
   const password = String(formData.get("password") ?? "");
   const planRaw = String(formData.get("plan") ?? "essai");
-  const plan = VALID_PLANS.has(planRaw) ? planRaw : "essai";
+  const requestedPlan = VALID_PLANS.has(planRaw) ? planRaw : "essai";
+  // "pro"/"annuel" are paid — signing up alone never grants them for free.
+  // The account starts on the trial (already full-featured) and, for a paid
+  // request, would be sent to Checkout to upgrade — paused for now (see
+  // PAYMENTS_ENABLED), so it just lands on the trial with an honest notice.
+  const isPaidPlanRequest = requestedPlan === "pro" || requestedPlan === "annuel";
+  const initialPlan = isPaidPlanRequest ? "essai" : requestedPlan;
 
   const fieldErrors: Record<string, string> = {};
   if (!firstName) fieldErrors.firstName = "Requis";
@@ -42,10 +50,34 @@ export async function signupAction(
 
   const passwordHash = await hashPassword(password);
   const user = await db.user.create({
-    data: { firstName, lastName, email, passwordHash, plan },
+    data: { firstName, lastName, email, passwordHash, plan: initialPlan },
   });
 
   await createSession(user.id);
+
+  if (isPaidPlanRequest) {
+    if (!PAYMENTS_ENABLED) {
+      redirect("/onboarding/methode?checkout=unavailable");
+    }
+
+    const baseUrl = await getBaseUrl();
+    let checkoutUrl: string | null = null;
+    try {
+      checkoutUrl = await createCheckoutUrl({
+        userId: user.id,
+        email: user.email,
+        plan: requestedPlan as PaidPlan,
+        successUrl: `${baseUrl}/onboarding/methode?checkout=success`,
+        cancelUrl: `${baseUrl}/onboarding/methode?checkout=cancel`,
+      });
+    } catch (err) {
+      // Le compte existe déjà avec l'accès complet de l'essai — on ne
+      // bloque pas l'inscription si Stripe est indisponible.
+      console.error("stripe checkout at signup failed:", err);
+    }
+    redirect(checkoutUrl ?? "/onboarding/methode?checkout=error");
+  }
+
   redirect("/onboarding/methode");
 }
 
@@ -97,6 +129,32 @@ export async function loginAction(
 }
 
 export async function logoutAction(): Promise<void> {
+  await destroySession();
+  redirect("/");
+}
+
+export interface DeleteAccountState {
+  error?: string;
+}
+
+/**
+ * Requires re-entering the password, since deleting the account is
+ * irreversible. `onDelete: Cascade` on every `userId` foreign key
+ * (sessions, subscriptions + their price history, login attempts, password
+ * reset tokens) means a single `user.delete` removes everything.
+ */
+export async function deleteAccountAction(
+  _prevState: DeleteAccountState,
+  formData: FormData
+): Promise<DeleteAccountState> {
+  const user = await getCurrentUser();
+  if (!user) return { error: "Non connecté." };
+
+  const password = String(formData.get("password") ?? "");
+  const validPassword = await verifyPassword(password, user.passwordHash);
+  if (!validPassword) return { error: "Mot de passe incorrect." };
+
+  await db.user.delete({ where: { id: user.id } });
   await destroySession();
   redirect("/");
 }

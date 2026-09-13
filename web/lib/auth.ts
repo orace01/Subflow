@@ -10,6 +10,13 @@ import type { User } from "@prisma/client";
 const SESSION_COOKIE = "subflow_session";
 const SESSION_DURATION_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 const BCRYPT_ROUNDS = 12;
+export const TRIAL_LENGTH_DAYS = 90;
+
+function isTrialExpired(user: User): boolean {
+  if (user.plan !== "essai") return false;
+  const elapsedDays = (Date.now() - user.createdAt.getTime()) / 86_400_000;
+  return elapsedDays >= TRIAL_LENGTH_DAYS;
+}
 
 export function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, BCRYPT_ROUNDS);
@@ -32,6 +39,19 @@ async function isHttpsRequest(): Promise<boolean> {
   const forwardedProto = headerList.get("x-forwarded-proto");
   if (forwardedProto) return forwardedProto === "https";
   return headerList.get("x-forwarded-ssl") === "on";
+}
+
+/**
+ * Reconstructs the site's own origin from the incoming request (reverse
+ * proxies rewrite `Host`, so `x-forwarded-host` takes priority) — used to
+ * build absolute links (e.g. a password-reset URL) inside e-mails, where a
+ * relative path isn't an option.
+ */
+export async function getBaseUrl(): Promise<string> {
+  const headerList = await headers();
+  const protocol = (await isHttpsRequest()) ? "https" : "http";
+  const host = headerList.get("x-forwarded-host") ?? headerList.get("host");
+  return `${protocol}://${host}`;
 }
 
 /**
@@ -78,6 +98,10 @@ export const getCurrentUser = cache(async (): Promise<User | null> => {
   if (session.expiresAt < new Date()) {
     await db.session.delete({ where: { id: token } }).catch(() => {});
     return null;
+  }
+
+  if (isTrialExpired(session.user)) {
+    return db.user.update({ where: { id: session.user.id }, data: { plan: "gratuit" } });
   }
 
   return session.user;

@@ -1,7 +1,5 @@
 import { Sidebar } from "@/components/app/Sidebar";
-import { getCurrentUser } from "@/lib/auth";
-
-const TRIAL_LENGTH_DAYS = 90;
+import { getCurrentUser, TRIAL_LENGTH_DAYS } from "@/lib/auth";
 
 function computeTrialDay(createdAt: Date): number {
   const elapsedDays = Math.floor((Date.now() - createdAt.getTime()) / 86_400_000) + 1;
